@@ -4,13 +4,11 @@ import { RootLayout } from "./ui/layouts/RootLayout";
 import DashboardLayout from "./ui/layouts/Dashboard";
 // import { AppLayout } from "./ui/AppLayout";
 // import { Error } from "./ui/Error";
-// import { WelcomePage } from "./pages/WelcomePage";
-// import { Dashboard } from "./pages/Dashboard";
-// import { FlashcardPage } from "./pages/FlashcardPage";
-// import { DeckPage } from "./pages/DeckPage";
-// import { Settings } from "./pages/Settings";
-// import { About } from "./pages/About";
-// import { Contact } from "./pages/Contact";
+import { FlashcardPage } from "./pages/Flashcard";
+import { DeckPage } from "./pages/Deck";
+import { SettingsPage } from "./pages/Settings";
+import { AboutPage } from "./pages/About";
+
 
 import { SignUpPage } from "./pages/SignUp";
 import { SignInPage } from "./pages/SignIn";

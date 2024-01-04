@@ -1,19 +1,15 @@
 import { Link, Outlet } from 'react-router-dom'
-import { ClerkProvider, SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
+import {  SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
+import { Aside } from '../layoutParts/Aside/Aside'
  
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
- 
-if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key")
-}
- 
+
 export const RootLayout=()=> {
   return (
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+<>
       <header className="header">
         <div>
           <div>
-            <p>Clerk + React + React Router App</p>
+           
           </div>
           <SignedIn>
             <UserButton afterSignOutUrl='/sign-in' />
@@ -26,6 +22,18 @@ export const RootLayout=()=> {
       <main>
         <Outlet />
       </main>
-    </ClerkProvider>
+      <div className="grid grid-rows-[2fr_1fr] md:grid-rows-none md:grid-cols-[1fr_3fr] w-screen min-h-screen">
+      <div className="bg-red-light w-full h-full flex md:pt-32 justify-center row-start-2 md:row-auto">
+        <div className=" flex flex-col md:h-[340px] pt-10 gap-4 md:justify-between md:pt-0 items-center">
+          {/* <Hanko /> */}
+          <h1 className="h-fit md:-rotate-90 font-display font-bold text-5xl md:text-[100px] text-amber-50">
+            GENGO
+          </h1>
+        </div>
+      </div>
+      <Outlet />
+    </div>
+      </>
+
   )
 }
