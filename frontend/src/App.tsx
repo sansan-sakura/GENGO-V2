@@ -15,6 +15,8 @@ import { SignInPage } from "./pages/SignIn";
 import { ContactPage } from "./pages/Contact";
 import { DashboardPage } from "./pages/Dashboard";
 import { IndexPage } from "./pages/IndexPage";
+import AuthLayout from "./ui/layouts/AuthLayout";
+import { IndexLayout } from "./ui/layouts/IndexLayout";
 // import { LoginSignUpLayout } from "./ui/LoginSignUpLayout";
 
 
@@ -23,10 +25,21 @@ const router = createBrowserRouter([
     {
         element: <RootLayout />,
         children: [
-          { path: "/", element: <IndexPage/> },
-          { path: "/contact", element: <ContactPage /> },
-          { path: "/sign-in", element: <SignInPage /> },
-          { path: "/sign-up", element: <SignUpPage /> },
+          {
+            element: <IndexLayout/>,
+            children: [
+              { path: "/", element: <IndexPage/> },
+              { path: "/contact", element: <ContactPage /> },]
+          },
+         
+          {
+            element: <AuthLayout />,
+            children: [
+            { path: "/sign-in", element: <SignInPage /> },
+            { path: "/sign-up", element: <SignUpPage /> },]
+
+          },
+       ]},
           {
             element: <DashboardLayout />,
             path: "dashboard",
@@ -34,8 +47,8 @@ const router = createBrowserRouter([
               { path: "/dashboard", element: <DashboardPage /> },
             ]
           }
-        ]
-      }
+        
+      
     
 //   { path: "/", element: <WelcomePage />, errorElement: <Error /> },
 //   {

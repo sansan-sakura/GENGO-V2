@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default{
   darkMode: ["class"],
   content: [
     './pages/**/*.{ts,tsx}',
@@ -15,6 +15,10 @@ module.exports = {
       screens: {
         "2xl": "1400px",
       },
+    },
+    fontFamily: {
+      display: ["Megrim", "Courier New", "monospace"],
+      text: ["Poppins", "Arial", "sans-serif"],
     },
     extend: {
       colors: {
