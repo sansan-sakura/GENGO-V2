@@ -1,39 +1,30 @@
 import { Link, Outlet } from 'react-router-dom'
 import {  SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
 import { Aside } from '../layoutParts/Aside/Aside'
- 
+import { Particle } from '../animations/Particle'
+
+const delays=["animation-delay-100","animation-delay-200","animation-delay-300","animation-delay-400","animation-delay-500","animation-delay-600","animation-delay-700",]
+
 
 export const RootLayout=()=> {
   return (
-<>
-      <header className="header">
-        <div>
-          <div>
-           
-          </div>
-          <SignedIn>
-            <UserButton afterSignOutUrl='/sign-in' />
-          </SignedIn>
-          <SignedOut>
-            <Link to="/sign-in">Sign In</Link>
-          </SignedOut>
+      <div className=" w-screen min-h-screen bg-red-light h-full flex items-center justify-center ">
+
+        <div className="absolute left-20 -top-[600px]">
+
+     {Array.from({length:5},((_,i)=>
+     {
+return (<h1 className={`h-fit font-display font-bold text-5xl md:text-[100px] text-amber-50 animate-move ${delays[i]}`}>
+            GENGO
+          </h1>)}))}
+      
         </div>
-      </header>
-      <main>
+        <main className='z-[100]'>
         <Outlet />
       </main>
-      <div className="grid grid-rows-[2fr_1fr] md:grid-rows-none md:grid-cols-[1fr_3fr] w-screen min-h-screen">
-      <div className="bg-red-light w-full h-full flex md:pt-32 justify-center row-start-2 md:row-auto">
-        <div className=" flex flex-col md:h-[340px] pt-10 gap-4 md:justify-between md:pt-0 items-center">
-          {/* <Hanko /> */}
-          <h1 className="h-fit md:-rotate-90 font-display font-bold text-5xl md:text-[100px] text-amber-50">
-            GENGO
-          </h1>
-        </div>
-      </div>
-      <Outlet />
-    </div>
-      </>
-
+    
+      <Particle
+      /> 
+    </div> 
   )
 }

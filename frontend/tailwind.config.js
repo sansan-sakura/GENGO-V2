@@ -51,6 +51,41 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+            red: {
+              light: "#F5B9B0",
+              default: "#E55039",
+              dark: "#B7402E",
+            },
+            blue: {
+              light: "#92A5D7",
+              default: "#4A69BD",
+              dark: "#25355F",
+            },
+            yellow: {
+              light: "#FAD589",
+              default: "#F6B93B",
+              dark: "#7B5D1E",
+            },
+            green: {
+              light: "#AEECBC",
+              default: "#78E08F",
+              dark: "#3C7048",
+            },
+            sky: {
+              light: "#A0C8D7",
+              default: "#60A3BC",
+              dark: "#30525E",
+            },
+      },
+      animationDelay: {
+        100: "3s",
+        200: "6s",
+        300: "9s",
+        400: "12s",
+        500: "15s",
+        600: "18s",
+        700: "21s",
+   
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -66,12 +101,19 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        'move':{
+          "0%":{
+            transform:"translateY(-100px) rotate(-90deg)"
+          },
+          "100%":{     transform:"translateY(2500px) rotate(-90deg)"}
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        move:"move infinite 14s ease "
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("tailwindcss-animation-delay"),],
 }

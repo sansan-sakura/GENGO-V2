@@ -8,6 +8,7 @@ import "./styles/reset.css";
 import ErrorBoundary from "./ui/generic/ErrorBoundary/index.tsx";
 import { ClerkProvider } from '@clerk/clerk-react'
 
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -25,7 +26,8 @@ if (!PUBLISHABLE_KEY) {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <ClerkProvider 
+      publishableKey={PUBLISHABLE_KEY}>
 
     <ErrorBoundary fallback={<p>There was an error</p>}>
       <QueryClientProvider client={queryClient}>
