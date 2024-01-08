@@ -15,6 +15,7 @@ import {
   PaginationPrevious,
 } from '../../../ui/shadcn/Pagination'
 import { Popover, PopoverContent, PopoverTrigger } from '../../../ui/shadcn/Popover'
+import { PopoverCustom } from '../../../ui/generic/Popover/PopoverCustom'
 export const ListDecks = () => {
   const setIsModalOpen = useSetRecoilState(modalState)
   return (
@@ -52,19 +53,12 @@ export const ListDecks = () => {
           </Pagination>
         </div>
 
-        <Popover>
-          <PopoverTrigger className='fixed bottom-10 right-10 z-10 rounded-full bg-amber-50 p-4 shadow-[3px_10px_16px_4px_rgba(0,0,0,0.1)] md:absolute md:bottom-2 md:right-0 lg:-right-12'>
-            <IoAddSharp className='text-2xl' />
-          </PopoverTrigger>
-          <PopoverContent sideOffset={-150} align='center'>
-            <div className='grid items-center gap-2 font-semibold text-blue-dark'>
-              <button className='transition-none hover:brightness-150'>
-                Add Category
-              </button>
-              <button className='transition-none hover:brightness-150'>Add Deck</button>
-            </div>
-          </PopoverContent>
-        </Popover>
+        <PopoverCustom>
+          <div className='grid items-center gap-2 font-semibold text-blue-dark'>
+            <button className='transition-none hover:brightness-150'>Add Category</button>
+            <button className='transition-none hover:brightness-150'>Add Deck</button>
+          </div>
+        </PopoverCustom>
       </div>
       <Modal header='Create Deck'>
         <InputEditDeck />
