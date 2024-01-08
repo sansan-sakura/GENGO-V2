@@ -1,7 +1,9 @@
-
+import { Deck } from '../features/deck'
 
 export const FlashcardPage = () => {
   return (
-    <div>Flashcard</div>
+    <div>
+      <Deck />
+    </div>
   )
 }

@@ -1,7 +1,9 @@
-
+import { Goals } from '../features/goals'
 
 export const DashboardPage = () => {
   return (
-    <div>Dashboad</div>
+    <div>
+      <Goals />
+    </div>
   )
 }
