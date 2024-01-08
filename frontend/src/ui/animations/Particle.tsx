@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import type { Engine ,  Container,} from "@tsparticles/engine";
-import { loadFull } from "tsparticles";
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import Particles, { initParticlesEngine } from '@tsparticles/react'
+import type { Engine, Container } from '@tsparticles/engine'
+import { loadFull } from 'tsparticles'
 
+import logo from './logo.svg'
 
-import logo from "./logo.svg";
-
-import { ISourceOptions } from "@tsparticles/engine";
+import { ISourceOptions } from '@tsparticles/engine'
 
 export const Particle = () => {
-  const [init, setInit] = useState(false);
+  const [init, setInit] = useState(false)
 
   // this should be run only once per application lifetime
   useEffect(() => {
@@ -22,19 +21,19 @@ export const Particle = () => {
       await loadFull(engine)
       //await loadBasic(engine);
     }).then(() => {
-      setInit(true);
-    });
-  }, []);
+      setInit(true)
+    })
+  }, [])
 
   const particlesLoaded = async (container?: Container): Promise<void> => {
-    console.log(container);
-  };
+    console.log(container)
+  }
 
   const options: ISourceOptions = useMemo(
     () => ({
       background: {
         color: {
-          value: "transparent",
+          value: 'transparent',
         },
       },
       fpsLimit: 120,
@@ -42,11 +41,11 @@ export const Particle = () => {
         events: {
           onClick: {
             enable: true,
-            mode: "push",
+            mode: 'push',
           },
           onHover: {
             enable: true,
-            mode: "repulse",
+            mode: 'repulse',
           },
         },
         modes: {
@@ -61,21 +60,18 @@ export const Particle = () => {
       },
       particles: {
         color: {
-          value: "#fffbeb",
+          value: '#fffbeb',
         },
         links: {
-          color: "#fffbeb",
+          color: '#fffbeb',
           distance: 150,
           enable: true,
           opacity: 0.5,
           width: 1,
         },
         move: {
- 
           enable: true,
-          outModes: {
-           
-          },
+          outModes: {},
           random: false,
           speed: 2,
           straight: false,
@@ -90,7 +86,7 @@ export const Particle = () => {
           value: 0.5,
         },
         shape: {
-          type: "circle",
+          type: 'circle',
         },
         size: {
           value: { min: 1, max: 5 },
@@ -99,15 +95,9 @@ export const Particle = () => {
       detectRetina: true,
     }),
     [],
-  );
+  )
 
-
-    return (
-      <Particles
-        id="tsparticles"
-        particlesLoaded={particlesLoaded}
-        options={options}
-      />
-    );
-
-};
+  return (
+    <Particles id='tsparticles' particlesLoaded={particlesLoaded} options={options} />
+  )
+}

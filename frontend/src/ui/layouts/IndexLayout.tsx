@@ -1,26 +1,34 @@
-import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react"
-import { Link, Outlet } from "react-router-dom"
-
+import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
+import { Link, Outlet } from 'react-router-dom'
 
 export const IndexLayout = () => {
   return (
     <div>
-        <div className="fixed top-0 left-0 w-screen bg-blue-dark px-10 py-10 border-b-4 border-b-amber-100">
-            <div className="flex justify-between items-end">
-        <h1 className="text-6xl text-amber-100">GENGO</h1>
+      <div className='fixed left-0 top-0 w-screen border-b-4 border-b-amber-100 bg-blue-dark px-10 py-10'>
+        <div className='mx-auto flex w-full max-w-[1400px] items-end justify-between'>
+          <h1 className='text-5xl text-amber-100 sm:text-6xl'>GENGO</h1>
           <SignedIn>
-            <UserButton afterSignOutUrl='/sign-in' appearance={{elements:{
-              userButtonBox:"w-16 h-16",
-              avatarBox:"w-full h-full border-2 border-amber-100 shadow"
-            }    
-            }} />
+            <UserButton
+              afterSignOutUrl='/sign-in'
+              appearance={{
+                elements: {
+                  userButtonBox: 'w-16 h-16',
+                  avatarBox: 'w-full h-full border-2 border-amber-100 shadow',
+                },
+              }}
+            />
           </SignedIn>
           <SignedOut>
-            <Link to="/sign-in" className="border-b border-b-black hover:text-gray-700">Sign In</Link>
+            <Link
+              to='/sign-in'
+              className='border-b border-b-amber-100 text-amber-100 transition-colors duration-300 hover:border-b-amber-200 hover:text-amber-200'
+            >
+              Sign In
+            </Link>
           </SignedOut>
-          </div>
         </div>
-    <Outlet/>
+      </div>
+      <Outlet />
     </div>
   )
 }
