@@ -1,13 +1,13 @@
-import { Outlet } from "react-router-dom";
-import { Particle } from "../animations/Particle";
+import { Outlet } from 'react-router-dom'
+import { Particle } from '../animations/Particle'
 
 export const RootLayout = () => {
   return (
-    <div className="w-screen min-h-screen bg-red-light h-full flex items-center justify-center">
-      <div className="z-[100]">
+    <div className='flex h-full min-h-screen w-screen items-center justify-center bg-amber-50/50'>
+      <div className='z-[100]'>
         <Outlet />
       </div>
       <Particle />
     </div>
-  );
-};
+  )
+}
