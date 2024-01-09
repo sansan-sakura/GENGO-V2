@@ -1,10 +1,9 @@
-import { InputEditDeck } from './InputEditDeck'
 import { Modal } from '../../../ui/generic/Modal'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import { modalState } from '../../../atoms/commonAtoms'
+import { useRecoilState } from 'recoil'
+import { modalIDstate, modalState } from '../../../atoms/commonAtoms'
 import { CardDeck } from './CardDeck'
 import { SelectCategory } from '../../../ui/generic/SelectCategory'
-import { IoAddSharp } from 'react-icons/io5'
+
 import {
   Pagination,
   PaginationContent,
@@ -14,10 +13,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '../../../ui/shadcn/Pagination'
-import { Popover, PopoverContent, PopoverTrigger } from '../../../ui/shadcn/Popover'
 import { PopoverCustom } from '../../../ui/generic/Popover/PopoverCustom'
+import { InputCreateCategory } from '../../category/components/InputCreateCategory'
+import { InputCreateDeck } from './InputCreateDeck'
 export const ListDecks = () => {
-  const setIsModalOpen = useSetRecoilState(modalState)
+  const [isModalOpen, setIsModalOpen] = useRecoilState(modalState)
+  const [modalId, setModalId] = useRecoilState(modalIDstate)
   return (
     <>
       <div className='relative mx-auto flex h-full w-fit flex-col items-center justify-around gap-12 lg:gap-16'>
@@ -55,17 +56,37 @@ export const ListDecks = () => {
 
         <PopoverCustom>
           <div className='grid items-center gap-2 font-semibold text-blue-dark'>
-            <button className='transition-none hover:brightness-150'>Add Category</button>
-            <button className='transition-none hover:brightness-150'>Add Deck</button>
+            <button
+              className='transition-none hover:brightness-150'
+              onClick={() => {
+                setModalId('createCategory')
+                setIsModalOpen(true)
+              }}
+            >
+              Add Category
+            </button>
+            <button
+              className='transition-none hover:brightness-150'
+              onClick={() => {
+                setModalId('createDeck')
+                setIsModalOpen(true)
+              }}
+            >
+              Add Deck
+            </button>
           </div>
         </PopoverCustom>
       </div>
-      <Modal header='Create Deck'>
-        <InputEditDeck />
-      </Modal>
-      <Modal header='Create a Category'>
-        <InputEditDeck />
-      </Modal>
+      {isModalOpen && modalId === 'createDeck' && (
+        <Modal header='Create a Deck' id='createDeck'>
+          <InputCreateDeck />
+        </Modal>
+      )}
+      {isModalOpen && modalId === 'createCategory' && (
+        <Modal header='Create a Category' id='createCategory'>
+          <InputCreateCategory />
+        </Modal>
+      )}
     </>
   )
 }

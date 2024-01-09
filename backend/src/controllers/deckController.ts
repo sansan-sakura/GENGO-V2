@@ -1,15 +1,13 @@
-const Deck = require("../models/deckModel");
-const User = require("../models/userModel");
-
-const catchAsync = require("../utils/catchAsync");
-
-const AppError = require("../utils/appError");
-const APIFeatures = require("../utils/apiFeature");
-const { default: mongoose } = require("mongoose");
-
-export const getAllDecks = catchAsync(async (req, res, next) => {
-  const accessToken = req.headers.authorization;
-  const userStorage = await User.findOne({ accessToken: accessToken });
+import { Request, Response, NextFunction } from "express";
+import { Deck } from "../models/deckModel";
+import mongoose from "mongoose";
+import { catchAsync } from "../utils/catchAsync";
+import { APIFeatures } from "../utils/apiFeature";
+import { User } from "../models/userModel";
+import { AppError } from "../utils/appError";
+export const getAllDecks = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  const id = req.body.id;
+  const userStorage = await User.findOne({ clerkId: id });
   if (!userStorage)
     return res.status(400).json({ status: false, message: "There is no user with the ID" });
   const features = new APIFeatures(
@@ -30,71 +28,77 @@ export const getAllDecks = catchAsync(async (req, res, next) => {
   });
 });
 
-export const getDatesOfDeck = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(
-    Deck.find({ category: mongoose.Types.ObjectId(req.params.id) })
-      .populate("category")
-      .populate("cards")
-      .select({
+export const getDatesOfDeck = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const features = new APIFeatures(
+      Deck.find({ category: new mongoose.Types.ObjectId(req.params.id) })
+        .populate("category")
+        .populate("cards")
+        .select({
+          createdAt: 1,
+          last_reviewed_date: 1,
+          reviewed_date: 1,
+        }),
+      req.query
+    );
+
+    const deck = await features.query;
+
+    res.status(200).json({
+      status: "200",
+      results: deck.length,
+      data: { deck },
+    });
+  }
+);
+
+export const getAllDatesOfDeck = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const features = new APIFeatures(
+      Deck.find().populate("category").populate("cards").select({
         createdAt: 1,
         last_reviewed_date: 1,
         reviewed_date: 1,
       }),
-    req.query
-  );
+      req.query
+    );
 
-  const deck = await features.query;
+    const deck = await features.query;
 
-  res.status(200).json({
-    status: "200",
-    results: deck.length,
-    data: { deck },
-  });
-});
+    res.status(200).json({
+      status: "200",
+      results: deck.length,
+      data: { deck },
+    });
+  }
+);
 
-export const getAllDatesOfDeck = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(
-    Deck.find().populate("category").populate("cards").select({
-      createdAt: 1,
-      last_reviewed_date: 1,
-      reviewed_date: 1,
-    }),
-    req.query
-  );
+export const getDecksByCategory = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const searchObj =
+      req.params.id === "all" ? {} : { category: new mongoose.Types.ObjectId(req.params.id) };
+    const features = new APIFeatures(
+      Deck.find({ category: new mongoose.Types.ObjectId(req.params.id) })
+        .populate("category")
+        .populate("cards"),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
 
-  const deck = await features.query;
+    const deck = await features.query;
 
-  res.status(200).json({
-    status: "200",
-    results: deck.length,
-    data: { deck },
-  });
-});
+    res.status(200).json({
+      status: "200",
+      results: deck.length,
+      data: { deck },
+    });
+  }
+);
 
-export const getDecksByCategory = catchAsync(async (req, res, next) => {
-  const searchObj =
-    req.params.id === "all" ? {} : { category: mongoose.Types.ObjectId(req.params.id) };
-  const features = new APIFeatures(
-    Deck.find({ category: mongoose.Types.ObjectId(req.params.id) })
-      .populate("category")
-      .populate("cards"),
-    req.query
-  )
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-
-  const deck = await features.query;
-
-  res.status(200).json({
-    status: "200",
-    results: deck.length,
-    data: { deck },
-  });
-});
-
-export const createDeck = catchAsync(async (req, res, next) => {
+export const createDeck = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const accessToken = req.headers.authorization;
   const userStorage = await User.findOne({ accessToken: accessToken });
   if (!userStorage)
@@ -115,7 +119,7 @@ export const createDeck = catchAsync(async (req, res, next) => {
   });
 });
 
-export const getDeck = catchAsync(async (req, res, next) => {
+export const getDeck = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const deck = await Deck.findById(req.params.id).populate("category").populate("cards");
   res.status(201).json({
     status: "success",
@@ -126,7 +130,7 @@ export const getDeck = catchAsync(async (req, res, next) => {
   });
 });
 
-export const deleteDeck = catchAsync(async (req, res, next) => {
+export const deleteDeck = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const deletedDeck = await Deck.findByIdAndDelete(req.params.id);
   res.json({
     status: "success",
@@ -134,7 +138,7 @@ export const deleteDeck = catchAsync(async (req, res, next) => {
   });
 });
 
-export const updateDeck = catchAsync(async (req, res, next) => {
+export const updateDeck = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const deck = await Deck.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,

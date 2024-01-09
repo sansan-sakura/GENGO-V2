@@ -5,138 +5,138 @@ import {
   DECK_WITH_CATEGOY_URL,
   DECK_WITH_DATE_CATEGOY_URL,
   ALL_DECK_DATES_URL,
-} from "../statics/fetchUrls";
+} from '../statics/fetchUrls'
 
-import { NewDeckType } from "../types/flashcardTypes";
-import { findToken } from "../utils/apiHelpers";
+import { NewDeckType } from '../types/flashcardTypes'
 
-export async function getDecksWithCategopry(categoryId: string, query: string) {
-  const accessToken = findToken();
-  if (!accessToken) return alert("Please check in first");
+export async function getDecksWithCategopry(
+  categoryId: string,
+  query: string,
+  token: any,
+) {
+  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(
-      categoryId === "all" ? ALL_DECK_URL(query) : DECK_WITH_CATEGOY_URL(categoryId, query),
+      categoryId === 'all'
+        ? ALL_DECK_URL(query)
+        : DECK_WITH_CATEGOY_URL(categoryId, query),
       {
-        method: "Get",
+        method: 'Get',
         headers: {
-          Authorization: accessToken,
-          "Content-Type": "application/json",
+          Authorization: token,
+          'Content-Type': 'application/json',
         },
-      }
-    );
+      },
+    )
 
-    const data = await res.json();
+    const data = await res.json()
 
-    if (data.status === "fail" || data.status === "error") {
-      alert(data.message);
-      throw new Error(data.message);
+    if (data.status === 'fail' || data.status === 'error') {
+      alert(data.message)
+      throw new Error(data.message)
     }
-    return data;
-  } catch (err) {
-    throw new Error("Couldn't get decks");
+    return data
+  } catch (err: any) {
+    throw new Error("Couldn't get decks")
   }
 }
 
-export async function getDatesOfDecks(categoryId: string, query: string) {
-  const accessToken = findToken();
-  if (!accessToken) return alert("Please check in first");
+export async function getDatesOfDecks(categoryId: string, query: string, token: any) {
+  if (!token) return alert('Please check in first')
 
   try {
     const res = await fetch(
-      categoryId === "all"
+      categoryId === 'all'
         ? ALL_DECK_DATES_URL(query)
         : DECK_WITH_DATE_CATEGOY_URL(categoryId, query),
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          Authorization: accessToken,
-          "Content-Type": "application/json",
+          Authorization: token,
+          'Content-Type': 'application/json',
         },
-      }
-    );
-    const data = await res.json();
+      },
+    )
+    const data = await res.json()
 
-    if (data.status === "fail" || data.status === "error") {
-      alert(data.message);
-      throw new Error(data.message);
+    if (data.status === 'fail' || data.status === 'error') {
+      alert(data.message)
+      throw new Error(data.message)
     }
-    return data;
-  } catch (err) {
-    throw new Error("Couldn't get dates");
+    return data
+  } catch (err: any) {
+    throw new Error("Couldn't get dates")
   }
 }
 
-export async function getDeck(id: number | string | undefined) {
-  if (id === undefined) return;
-  const accessToken = findToken();
-  if (!accessToken) return alert("Please check in first");
+export async function getDeck(id: number | string | undefined, token: any) {
+  if (id === undefined) return
+
+  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(DECK_BY_ID_URL(id), {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: accessToken,
-        "Content-Type": "application/json",
+        Authorization: token,
+        'Content-Type': 'application/json',
       },
-    });
-    const data = await res.json();
-    if (data.status === "fail" || data.status === "error") {
-      alert(data.message);
-      throw new Error(data.message);
+    })
+    const data = await res.json()
+    if (data.status === 'fail' || data.status === 'error') {
+      alert(data.message)
+      throw new Error(data.message)
     }
-    return data;
-  } catch (err) {
-    throw new Error("Couldn't get a deck");
+    return data
+  } catch (err: any) {
+    throw new Error("Couldn't get a deck")
   }
 }
 
-export async function createDeck(body: NewDeckType) {
-  const accessToken = findToken();
-  if (!accessToken) return alert("Please check in first");
+export async function createDeck(body: NewDeckType, token: any) {
+  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(DECK_CREATE_URL, {
-      method: "POST",
-      headers: { Authorization: accessToken, "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { Authorization: token, 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
-    });
+    })
 
-    const data = await res.json();
-    if (data.status !== "success") throw new Error(data.message);
-    return data;
-  } catch (err) {
-    throw new Error(err.message);
+    const data = await res.json()
+    if (data.status !== 'success') throw new Error(data.message)
+    return data
+  } catch (err: any) {
+    throw new Error(err.message)
   }
 }
 
-export async function deleteDeck(id: number | string) {
-  const accessToken = findToken();
-  if (!accessToken) return alert("Please check in first");
+export async function deleteDeck(id: number | string, token: any) {
+  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(DECK_BY_ID_URL(id), {
-      method: "DELETE",
-      headers: { Authorization: accessToken },
-    });
-    const data = await res.json();
-    if (data.status !== "success") throw new Error(data.message);
-    return data;
-  } catch (err) {
-    throw new Error(err.message);
+      method: 'DELETE',
+      headers: { Authorization: token },
+    })
+    const data = await res.json()
+    if (data.status !== 'success') throw new Error(data.message)
+    return data
+  } catch (err: any) {
+    throw new Error(err.message)
   }
 }
 
-export async function updateDeck(id: number | string, body: NewDeckType) {
-  const accessToken = findToken();
-  if (!accessToken) return alert("Please check in first");
+export async function updateDeck(id: number | string, body: NewDeckType, token: any) {
+  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(DECK_BY_ID_URL(id), {
-      method: "PUT",
-      headers: { Authorization: accessToken, "Content-Type": "application/json" },
+      method: 'PUT',
+      headers: { Authorization: token, 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
-    });
+    })
 
-    const data = await res.json();
-    if (data.status !== "success") throw new Error(data.message);
-    return data;
-  } catch (err) {
-    throw new Error(err.message);
+    const data = await res.json()
+    if (data.status !== 'success') throw new Error(data.message)
+    return data
+  } catch (err: any) {
+    throw new Error(err.message)
   }
 }

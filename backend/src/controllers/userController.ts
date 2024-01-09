@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import bcrypt from "bcrypt-nodejs";
 import { User } from "../models/userModel";
 
 export const createNewUser = async (req: Request, res: Response) => {
@@ -26,17 +25,6 @@ export const createNewUser = async (req: Request, res: Response) => {
     res.status(500).json({ status: false, message: err.message });
   }
 };
-
-// export const getAllUsers = async (req: Request, res: Response) => {
-//   try {
-//     const users = await User.find();
-//     console.log(users);
-//     res.status(200).json({ status: true, users });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(400).json({ status: false, message: err.error });
-//   }
-// };
 
 export const updateUser = async (req: Request, res: Response) => {
   const id = req.params.id;

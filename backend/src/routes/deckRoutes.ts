@@ -8,7 +8,7 @@ import {
   getDecksByCategory,
   updateDeck,
 } from "../controllers/deckController";
-import {} from "../middleware/auth";
+
 import express from "express";
 
 const router = express.Router();

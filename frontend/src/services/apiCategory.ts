@@ -1,77 +1,76 @@
-import { CATEGORY_ID_URL, CATEGORY_URL } from "../statics/fetchUrls";
-import { NewCategory } from "../types/flashcardTypes";
-import { findToken } from "../utils/apiHelpers";
+import { CATEGORY_ID_URL, CATEGORY_URL } from '../statics/fetchUrls'
+import { NewCategory } from '../types/flashcardTypes'
 
-export async function getCategories() {
-  const accessToken = findToken();
-  if (!accessToken) return alert("Please check in first");
+export async function getCategories(token: any) {
+  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(CATEGORY_URL, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: accessToken,
-        "Content-Type": "application/json",
+        Authorization: token,
+        'Content-Type': 'application/json',
       },
-    });
-    const data = await res.json();
-    if (data.status === "fail" || data.status === "error") {
-      alert(data.message);
-      throw new Error(data.message);
+    })
+    const data = await res.json()
+    if (data.status === 'fail' || data.status === 'error') {
+      alert(data.message)
+      throw new Error(data.message)
     }
-    return data;
-  } catch (err) {
-    console.log(err);
+    return data
+  } catch (err: any) {
+    console.log(err)
   }
 }
 
-export async function createCategory(body: NewCategory) {
-  const accessToken = findToken();
-  if (!accessToken) return alert("Please check in first");
+export async function createCategory(body: NewCategory, token: any) {
+  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(CATEGORY_URL, {
-      method: "POST",
-      headers: { Authorization: accessToken, "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { Authorization: token, 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
-    });
-    const data = await res.json();
-    if (data.status !== "success") throw new Error(data.message);
-    return data;
-  } catch (err) {
-    throw new Error(err.message);
+    })
+    const data = await res.json()
+    if (data.status !== 'success') throw new Error(data.message)
+    return data
+  } catch (err: any) {
+    throw new Error(err.message)
   }
 }
 
-export async function deleteCategory(id: number | string) {
-  const accessToken = findToken();
-  if (!accessToken) return alert("Please check in first");
+export async function deleteCategory(id: number | string, token: any) {
+  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(CATEGORY_ID_URL(id), {
-      method: "DELETE",
-      headers: { Authorization: accessToken },
-    });
-    const data = await res.json();
-    if (data.status !== "success") throw new Error(data.message);
+      method: 'DELETE',
+      headers: { Authorization: token },
+    })
+    const data = await res.json()
+    if (data.status !== 'success') throw new Error(data.message)
 
-    return data;
-  } catch (err) {
-    throw new Error(err.message);
+    return data
+  } catch (err: any) {
+    throw new Error(err.message)
   }
 }
 
-export async function updateCategory(id: number | string, body: { category: string }) {
-  const accessToken = findToken();
-  if (!accessToken) return alert("Please check in first");
+export async function updateCategory(
+  id: number | string,
+  body: { category: string },
+  token: any,
+) {
+  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(CATEGORY_ID_URL(id), {
-      method: "PUT",
-      headers: { Authorization: accessToken, "Content-Type": "application/json" },
+      method: 'PUT',
+      headers: { Authorization: token, 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
-    });
+    })
 
-    const data = await res.json();
-    if (data.status !== "success") throw new Error(data.message);
-    return data;
-  } catch (err) {
-    throw new Error(err.message);
+    const data = await res.json()
+    if (data.status !== 'success') throw new Error(data.message)
+    return data
+  } catch (err: any) {
+    throw new Error(err.message)
   }
 }

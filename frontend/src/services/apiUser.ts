@@ -14,8 +14,8 @@ export const createUser = async (formData: CreateUser) => {
     const data = await res.json();
 
     if (res.status === 201) {
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("userName", data.name);
+      // localStorage.setItem("accessToken", data.accessToken);
+      // localStorage.setItem("userName", data.name);
       alert("Created a new User");
       return data;
     } else {
@@ -39,8 +39,8 @@ export const loginUser = async (formData: LoginBody) => {
     const data = await res.json();
 
     if (res.status === 200) {
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("userName", data.name);
+      // localStorage.setItem("accessToken", data.accessToken);
+      // localStorage.setItem("userName", data.name);
       return data;
     } else {
       throw new Error(data.message);

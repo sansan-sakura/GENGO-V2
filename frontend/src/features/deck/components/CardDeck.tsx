@@ -20,9 +20,12 @@ import { DeckType } from '../../../types/flashcardTypes'
 import { bgColors } from '../../../statics/colors'
 import { Toaster } from '../../../ui/shadcn/toaster'
 import { Dialog } from '@radix-ui/react-dialog'
-
+import { useRecoilState } from 'recoil'
+import { modalIDstate } from '../../../atoms/commonAtoms'
+const id = 'modal'
 export const CardDeck = ({ card, index }: { card?: DeckType; index?: number }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalId, setModalId] = useRecoilState(modalIDstate)
   // const { deleteDeck } = useDeleteDeck()
 
   // const cardCategory = card?.category?.category
@@ -95,7 +98,7 @@ export const CardDeck = ({ card, index }: { card?: DeckType; index?: number }) =
             </div>
           </div>
         </Link>
-        <Modal header='Edit Deck'>
+        <Modal header='Edit Deck' id={`editDeck/${id}`}>
           <InputEditDeck />
         </Modal>
       </div>

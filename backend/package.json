@@ -31,6 +31,7 @@
     "mongoose": "^8.0.0",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.0.1",
+    "svix": "^1.15.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.3.3",
     "xss-clean": "^0.1.4"

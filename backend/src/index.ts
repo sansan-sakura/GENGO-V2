@@ -4,7 +4,6 @@ import * as dotenv from "dotenv";
 import helmet from "helmet";
 import mongoose from "mongoose";
 import { router as userRouter } from "./routes/userRoutes";
-import { router as gifRouter } from "./routes/gifRoutes";
 import { router as deckRouter } from "./routes/deckRoutes";
 import { router as flashcardRouter } from "./routes/flashcardRoutes";
 import { router as categoryRouter } from "./routes/categoryRoutes";
@@ -12,7 +11,7 @@ import listEndpoints from "express-list-endpoints";
 import rateLimit from "express-rate-limit";
 import ExpressMongoSanitize from "express-mongo-sanitize";
 import hpp from "hpp";
-import { AppError } from "utils/appError";
+import { AppError } from "./utils/appError";
 import { globalErrorHandler } from "./controllers/errorController";
 
 dotenv.config();
@@ -55,7 +54,6 @@ app.use("/api/v1/deck", deckRouter);
 app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/flashcard", flashcardRouter);
 app.use("/api/v1/user", userRouter);
-app.use("/api/v1/gif", gifRouter);
 app.use("/", (req, res) => {
   res.json(listEndpoints(app));
 });
