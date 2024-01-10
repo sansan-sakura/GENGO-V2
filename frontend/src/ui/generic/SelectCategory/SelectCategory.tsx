@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react'
 import {
   Select,
   SelectContent,
@@ -7,9 +8,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../../ui/shadcn/Select'
-export const SelectCategory = () => {
+
+type Props = {
+  onChange?: Dispatch<SetStateAction<string>>
+  defaultValue?: string
+}
+export const SelectCategory = ({ onChange, defaultValue }: Props) => {
   return (
-    <Select>
+    <Select onValueChange={onChange} defaultValue={defaultValue}>
       <SelectTrigger className='w-[180px]'>
         <SelectValue placeholder='Select a Category' />
       </SelectTrigger>

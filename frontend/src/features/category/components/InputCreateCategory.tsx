@@ -6,8 +6,9 @@ import { Toaster } from '../../../ui/shadcn/toaster'
 import { useCreateCategory } from '../category/useCreateCategory'
 
 export const InputCreateCategory = () => {
-  const { isCreating, createCategory } = useCreateCategory()
+  const { isCreating, createCategory, isError } = useCreateCategory()
   const [newCategoryValue, setNewCategoryvalue] = useState('')
+
   const handleSubmit = () => {
     if (newCategoryValue === '') return
     createCategory({ category: newCategoryValue })
@@ -22,7 +23,7 @@ export const InputCreateCategory = () => {
           value={newCategoryValue}
         />
       </div>
-      <ButtonSubmit onClick={handleSubmit} isloading={isCreating}>
+      <ButtonSubmit onClick={handleSubmit} isloading={isCreating} isError={isError}>
         Submit
       </ButtonSubmit>
     </div>

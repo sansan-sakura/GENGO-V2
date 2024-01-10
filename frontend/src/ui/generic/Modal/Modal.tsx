@@ -10,13 +10,11 @@ type Props = {
 }
 
 export const Modal = ({ children, header, id }: Props) => {
-  const [isModalOpen, setIsModalOpen] = useRecoilState(modalState)
   const [modalId, setModalId] = useRecoilState(modalIDstate)
   return (
     <Dialog
-      open={isModalOpen && modalId === id}
+      open={modalId === id}
       onOpenChange={() => {
-        setIsModalOpen((prev) => !prev)
         modalId !== '' && setModalId('')
       }}
     >

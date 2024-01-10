@@ -17,7 +17,6 @@ import { PopoverCustom } from '../../../ui/generic/Popover/PopoverCustom'
 import { InputCreateCategory } from '../../category/components/InputCreateCategory'
 import { InputCreateDeck } from './InputCreateDeck'
 export const ListDecks = () => {
-  const [isModalOpen, setIsModalOpen] = useRecoilState(modalState)
   const [modalId, setModalId] = useRecoilState(modalIDstate)
   return (
     <>
@@ -60,7 +59,6 @@ export const ListDecks = () => {
               className='transition-none hover:brightness-150'
               onClick={() => {
                 setModalId('createCategory')
-                setIsModalOpen(true)
               }}
             >
               Add Category
@@ -69,7 +67,6 @@ export const ListDecks = () => {
               className='transition-none hover:brightness-150'
               onClick={() => {
                 setModalId('createDeck')
-                setIsModalOpen(true)
               }}
             >
               Add Deck
@@ -77,12 +74,12 @@ export const ListDecks = () => {
           </div>
         </PopoverCustom>
       </div>
-      {isModalOpen && modalId === 'createDeck' && (
+      {modalId === 'createDeck' && (
         <Modal header='Create a Deck' id='createDeck'>
           <InputCreateDeck />
         </Modal>
       )}
-      {isModalOpen && modalId === 'createCategory' && (
+      {modalId === 'createCategory' && (
         <Modal header='Create a Category' id='createCategory'>
           <InputCreateCategory />
         </Modal>

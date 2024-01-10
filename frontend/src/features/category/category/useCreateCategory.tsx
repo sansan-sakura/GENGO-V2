@@ -9,11 +9,15 @@ export function useCreateCategory() {
   const { toast } = useToast()
   const { getToken, isLoaded, isSignedIn } = useAuth()
   const token = getToken()
-  const { mutate: createCategory, isPending: isCreating } = useMutation({
+  const {
+    mutate: createCategory,
+    isPending: isCreating,
+    isError,
+  } = useMutation({
     mutationFn: (newCategory: NewCategory) => createCategoryApi(newCategory, token),
     onSuccess: () => {
       toast({
-        title: 'New category is created',
+        title: 'A New category is created',
       })
 
       queryClient.invalidateQueries({ queryKey: ['category'] })
@@ -27,5 +31,5 @@ export function useCreateCategory() {
       }),
   })
 
-  return { isCreating, createCategory }
+  return { isCreating, createCategory, isError }
 }

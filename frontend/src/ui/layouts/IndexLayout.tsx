@@ -1,20 +1,24 @@
 import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
 import { Link, Outlet } from 'react-router-dom'
 import { ImHome3 } from 'react-icons/im'
+import { Hanko } from '../generic/Hanko'
 
 export const IndexLayout = () => {
   return (
     <div>
-      <div className='fixed left-0 top-0 w-screen border-b-4 border-b-amber-100 bg-red-light px-10 py-10'>
-        <div className='mx-auto flex w-full max-w-[1400px] items-end justify-between'>
-          <h1 className='font-display text-5xl font-bold text-amber-100 sm:text-6xl'>
-            GENGO
-          </h1>
+      <div className='fixed left-0 top-0 w-screen  bg-amber-50/50 px-10 py-10 shadow-md'>
+        <div className='mx-auto flex w-full max-w-[1000px] items-end justify-between '>
+          <div className='flex items-center gap-2'>
+            <Hanko size='sm' />
+            <h1 className='font-display text-5xl font-bold text-black/80 sm:text-6xl'>
+              GENGO
+            </h1>
+          </div>
           <SignedIn>
             <div className='flex items-end gap-5'>
               <Link
                 to='/dashboard'
-                className='mb-1 block text-base font-semibold text-amber-100 transition-colors duration-300 hover:text-amber-300 sm:text-2xl'
+                className='mb-1 block text-base font-semibold text-red-dark transition-colors duration-300 hover:text-red-dark/80 sm:text-2xl'
               >
                 <ImHome3 />
               </Link>
@@ -24,7 +28,7 @@ export const IndexLayout = () => {
                   appearance={{
                     elements: {
                       userButtonBox: 'w-12 h-12',
-                      avatarBox: 'w-full h-full border-2 border-amber-100 shadow',
+                      avatarBox: 'w-full h-full border border-red-dark shadow',
                     },
                   }}
                 />
@@ -34,7 +38,7 @@ export const IndexLayout = () => {
           <SignedOut>
             <Link
               to='/sign-in'
-              className='border-b border-b-amber-100 text-amber-100 transition-colors duration-300 hover:border-b-amber-200 hover:text-amber-200'
+              className='border-b border-b-red-dark text-red-dark transition-colors duration-300 hover:border-b-red-dark/70 hover:text-red-dark/70'
             >
               Sign In
             </Link>

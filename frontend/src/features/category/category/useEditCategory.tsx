@@ -1,17 +1,40 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import { updateCategory } from "../../../../services/apiCategory";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
+import { updateCategory } from '../../../services/apiCategory'
+import { useToast } from '../../../ui/shadcn/use-toast'
+import { useAuth } from '@clerk/clerk-react'
 
 export function useEditCategory() {
-  const queryClient = useQueryClient();
-  const { mutate: editCategory, isPending: isEditing } = useMutation({
-    mutationFn: ({ id, newData }: { id: number | string; newData: { category: string } }) =>
-      updateCategory(id, newData),
+  const queryClient = useQueryClient()
+  const { toast } = useToast()
+  const { getToken, isLoaded, isSignedIn } = useAuth()
+  const token = getToken()
+  const {
+    mutate: editCategory,
+    isPending: isEditing,
+    isError,
+  } = useMutation({
+    mutationFn: ({
+      id,
+      newData,
+    }: {
+      id: number | string
+      newData: { category: string }
+    }) => updateCategory(id, newData, token),
     onSuccess: () => {
-      toast.success("Category successfully edited ");
-      queryClient.invalidateQueries({ queryKey: ["category"] });
+      toast({
+        title: 'Category successfully updated',
+      })
+
+      queryClient.invalidateQueries({ queryKey: ['category'] })
     },
-    onError: (err) => toast.error(err.message),
-  });
-  return { isEditing, editCategory };
+    onError: (err) =>
+      toast({
+        variant: 'destructive',
+        title: err.message,
+        // title: 'Uh oh! Something went wrong.',
+        description: 'There was a problem with your request.',
+      }),
+  })
+  return { isEditing, editCategory, isError }
 }

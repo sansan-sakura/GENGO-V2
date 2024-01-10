@@ -9,11 +9,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        red: 'bg-red-light text-amber-50 hover:bg-red-light/90',
+        blue: 'bg-blue-dark text-amber-50 hover:bg-blue-dark/90',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline:
           'border border-blue-dark bg-background hover:bg-accent hover:text-accent-foreground',
-        blue: 'bg-blue-dark text-amber-50 hover:bg-blue-dark/80',
+        red: 'bg-red-dark text-amber-50 hover:bg-red-dark/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
       },
@@ -25,7 +25,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: 'red',
+      variant: 'blue',
       size: 'default',
     },
   },

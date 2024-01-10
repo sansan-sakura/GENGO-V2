@@ -7,14 +7,14 @@ export const Footer = () => {
       <div className='mx-auto max-w-[700px]'>
         <div className='mb-2 flex gap-6 text-sm'>
           <Link to='/about'>
-            <p className='border-b-4 border-b-transparent text-sm transition duration-200 hover:border-b-red-light sm:text-base'>
+            <p className='border-b-4 border-b-transparent text-sm transition duration-200 hover:border-b-red-dark sm:text-base'>
               About
             </p>
           </Link>
           <Link to='/contact'>
             <p
               className='border-b-4 
-          border-b-transparent text-sm transition duration-200 hover:border-b-yellow-light sm:text-base'
+          border-b-transparent text-sm transition duration-200 hover:border-b-blue-dark sm:text-base'
             >
               Contact
             </p>
