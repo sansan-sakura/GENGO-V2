@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { ButtonSubmit } from '../../../ui/buttons/Button/ButtonSubmit'
 import { Input } from '../../../ui/shadcn/Input'
 import { Label } from '../../../ui/shadcn/Label'
-import { Toaster } from '../../../ui/shadcn/toaster'
 import { useCreateCategory } from '../category/useCreateCategory'
 
 export const InputCreateCategory = () => {

@@ -9,11 +9,15 @@ import {
   SelectValue,
 } from '../../../ui/shadcn/Select'
 
+import { useCategory } from '../../../features/category/category/useCategory'
+
 type Props = {
   onChange?: Dispatch<SetStateAction<string>>
   defaultValue?: string
 }
 export const SelectCategory = ({ onChange, defaultValue }: Props) => {
+  const { isPending, categories, error } = useCategory()
+  if (isPending || error) return
   return (
     <Select onValueChange={onChange} defaultValue={defaultValue}>
       <SelectTrigger className='w-[180px]'>
@@ -22,11 +26,12 @@ export const SelectCategory = ({ onChange, defaultValue }: Props) => {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Category</SelectLabel>
-          <SelectItem value='apple'>Apple</SelectItem>
-          <SelectItem value='banana'>Banana</SelectItem>
-          <SelectItem value='blueberry'>Blueberry</SelectItem>
-          <SelectItem value='grapes'>Grapes</SelectItem>
-          <SelectItem value='pineapple'>Pineapple</SelectItem>
+          <SelectItem value='All'>All</SelectItem>
+          {categories.map((item) => (
+            <SelectItem value={item._id} key={item._id}>
+              {item.category}
+            </SelectItem>
+          ))}
         </SelectGroup>
       </SelectContent>
     </Select>

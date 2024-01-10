@@ -2,7 +2,11 @@ import { ReactNode, useEffect } from 'react'
 import { Button } from '../../../shadcn/Button'
 import { Loader2 } from 'lucide-react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { modalConfirmIdState, modalIDstate } from '../../../../atoms/commonAtoms'
+import {
+  modalConfirmIdState,
+  modalIDstate,
+  subModalIdState,
+} from '../../../../atoms/commonAtoms'
 
 type Props = {
   children: ReactNode
@@ -25,10 +29,14 @@ export const ButtonSubmit = ({
 }: Props) => {
   const [modalId, setModalId] = useRecoilState(modalIDstate)
   const [modalConfirmId, setModalConfirmId] = useRecoilState(modalConfirmIdState)
+  const [subModalId, setSubModalId] = useRecoilState(subModalIdState)
+  console.log(subModalId)
 
   const closeModalOnSubmit = () => {
     modalId !== '' && setModalId('')
     modalConfirmId !== '' && setModalConfirmId('')
+    subModalId !== '' && setSubModalId('')
+    console.log(subModalId, subModalId !== '')
   }
 
   useEffect(() => {
@@ -41,9 +49,9 @@ export const ButtonSubmit = ({
   return (
     <Button
       onClick={onClick}
-      className={`min-w-[100px] ${className}`}
+      className={`min-w-[100px] uppercase ${className}`}
       type='submit'
-      variant={varient ?? null}
+      variant={varient || 'blue'}
       size={size}
     >
       {isloading ? <Loader2 className=' h-4 w-4 animate-spin' /> : children}

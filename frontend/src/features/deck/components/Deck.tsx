@@ -8,9 +8,14 @@ import { Toaster } from '../../../ui/shadcn/toaster'
 import { Button } from '../../../ui/shadcn/Button'
 import { Progress } from '../../../ui/shadcn/Progress'
 import { PopoverCustom } from '../../../ui/generic/Popover/PopoverCustom'
+import { useRecoilState } from 'recoil'
+import { modalIDstate } from '../../../atoms/commonAtoms'
+import { Modal } from '../../../ui/generic/Modal'
+import { InputCreateFlashcard } from '../../flashcard'
+import { InputUpdateFlashcard } from '../../flashcard/components/InputUpdateFlashcard'
 
 const status = ['easy', 'okay', 'hard', 'very hard']
-
+const deckId = '1'
 export const Deck = ({ cards }: { cards?: Array<CardType> }) => {
   const [progress, setProgress] = useState(13)
   const [isChecked, setIsChecked] = useState(false)
@@ -18,6 +23,7 @@ export const Deck = ({ cards }: { cards?: Array<CardType> }) => {
   const [currentCard, setCurrentCard] = useState<CardType>()
   const [isFinished, setIsFinished] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalId, setModalId] = useRecoilState(modalIDstate)
 
   //   useEffect(() => {
   //     if (cards.length === 0 || cards === undefined) return
@@ -40,26 +46,21 @@ export const Deck = ({ cards }: { cards?: Array<CardType> }) => {
   //     deleteFlashcard(_id)
   //   }
 
-  //   const handlePlayAgain = () => {
-  //     setCurrentIndex(0)
-  //     setIsFinished(false)
-  //   }
+  const handlePlayAgain = () => {
+    setCurrentIndex(0)
+    setIsFinished(false)
+  }
 
   if (isFinished)
     return (
-      <div className='flex grow flex-col items-center justify-center text-center'>
-        <p className='text-lg font-semibold text-blue-default sm:text-2xl'>
+      <div className='flex h-full flex-col items-center justify-center gap-10 text-center'>
+        <p className='text-lg font-semibold text-blue-dark sm:text-2xl'>
           This deck has no more cards to review
         </p>
-        <p className='mt-2 text-base font-semibold text-green-dark sm:text-lg'>
-          Do you want to review again?
-        </p>
-        <button
-          //   onClick={handlePlayAgain}
-          className='button mt-4 bg-red-default px-6 font-bold text-white sm:px-8'
-        >
+
+        <Button variant='blue' size='lg' onClick={handlePlayAgain}>
           Again
-        </button>
+        </Button>
       </div>
     )
 
@@ -102,22 +103,32 @@ export const Deck = ({ cards }: { cards?: Array<CardType> }) => {
         </div>
         <PopoverCustom>
           <div className='grid items-center gap-2 font-semibold text-blue-dark'>
-            <button className='transition-none hover:brightness-150'>
+            <button
+              className='transition-none hover:brightness-150'
+              onClick={() => setModalId('modal/addFlashcard')}
+            >
               Add Flashcard
             </button>
-            <button className='transition-none hover:brightness-150'>
+            <button
+              onClick={() => setModalId('modal/updateFlashcard')}
+              className='transition-none hover:brightness-150'
+            >
               Edit Flashcard
             </button>
           </div>
         </PopoverCustom>
       </div>
 
-      {/* {isModalOpen && (
-        // <Modal
-        //   content={<EditFlashCardModal answer={answer} question={question} id={_id} />}
-        //   setIsOpenModal={setIsModalOpen}
-        // />
-      )} */}
+      {modalId === 'modal/addFlashcard' && (
+        <Modal header='Add New Flashcard' id='modal/addFlashcard'>
+          <InputCreateFlashcard deckId={deckId} />
+        </Modal>
+      )}
+      {modalId === 'modal/updateFlashcard' && (
+        <Modal header='Add New Flashcard' id='modal/updateFlashcard'>
+          <InputUpdateFlashcard cards={cards ?? []} />
+        </Modal>
+      )}
     </>
   )
 }

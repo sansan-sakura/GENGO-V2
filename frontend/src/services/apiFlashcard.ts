@@ -3,7 +3,6 @@ import { CardType, CreateFlashCard } from '../types/flashcardTypes'
 import { findToken } from '../utils/apiHelpers'
 
 export async function createFlashCard(body: CreateFlashCard, token: any) {
-  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(FLASHCARD_CREATE_URL, {
       method: 'POST',
@@ -23,7 +22,7 @@ export async function createFlashCard(body: CreateFlashCard, token: any) {
 
 export async function deleteFlashCard(id: number | string | undefined, token: any) {
   if (id === undefined) return
-  if (!token) return alert('Please check in first')
+
   try {
     const res = await fetch(FLASHCARD_BY_ID_URL(id), {
       method: 'DELETE',
@@ -43,7 +42,7 @@ export async function updateFlashCard(
   token: any,
 ) {
   if (id === undefined) return
-  if (!token) return alert('Please check in first')
+
   try {
     const res = await fetch(FLASHCARD_BY_ID_URL(id), {
       method: 'PUT',

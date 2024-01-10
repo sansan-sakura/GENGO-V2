@@ -14,7 +14,6 @@ export async function getDecksWithCategopry(
   query: string,
   token: any,
 ) {
-  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(
       categoryId === 'all'
@@ -42,8 +41,6 @@ export async function getDecksWithCategopry(
 }
 
 export async function getDatesOfDecks(categoryId: string, query: string, token: any) {
-  if (!token) return alert('Please check in first')
-
   try {
     const res = await fetch(
       categoryId === 'all'
@@ -71,8 +68,6 @@ export async function getDatesOfDecks(categoryId: string, query: string, token: 
 
 export async function getDeck(id: number | string | undefined, token: any) {
   if (id === undefined) return
-
-  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(DECK_BY_ID_URL(id), {
       method: 'GET',
@@ -93,7 +88,6 @@ export async function getDeck(id: number | string | undefined, token: any) {
 }
 
 export async function createDeck(body: NewDeckType, token: any) {
-  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(DECK_CREATE_URL, {
       method: 'POST',
@@ -110,7 +104,6 @@ export async function createDeck(body: NewDeckType, token: any) {
 }
 
 export async function deleteDeck(id: number | string, token: any) {
-  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(DECK_BY_ID_URL(id), {
       method: 'DELETE',
@@ -125,7 +118,6 @@ export async function deleteDeck(id: number | string, token: any) {
 }
 
 export async function updateDeck(id: number | string, body: NewDeckType, token: any) {
-  if (!token) return alert('Please check in first')
   try {
     const res = await fetch(DECK_BY_ID_URL(id), {
       method: 'PUT',

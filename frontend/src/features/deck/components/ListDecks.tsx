@@ -16,6 +16,7 @@ import {
 import { PopoverCustom } from '../../../ui/generic/Popover/PopoverCustom'
 import { InputCreateCategory } from '../../category/components/InputCreateCategory'
 import { InputCreateDeck } from './InputCreateDeck'
+import { UpdateCategoryField } from '../../category/components/UpdateCategoryField'
 export const ListDecks = () => {
   const [modalId, setModalId] = useRecoilState(modalIDstate)
   return (
@@ -58,6 +59,14 @@ export const ListDecks = () => {
             <button
               className='transition-none hover:brightness-150'
               onClick={() => {
+                setModalId('createDeck')
+              }}
+            >
+              Add Deck
+            </button>
+            <button
+              className='transition-none hover:brightness-150'
+              onClick={() => {
                 setModalId('createCategory')
               }}
             >
@@ -66,10 +75,10 @@ export const ListDecks = () => {
             <button
               className='transition-none hover:brightness-150'
               onClick={() => {
-                setModalId('createDeck')
+                setModalId('updateCategory')
               }}
             >
-              Add Deck
+              Edit Category
             </button>
           </div>
         </PopoverCustom>
@@ -82,6 +91,15 @@ export const ListDecks = () => {
       {modalId === 'createCategory' && (
         <Modal header='Create a Category' id='createCategory'>
           <InputCreateCategory />
+        </Modal>
+      )}
+      {modalId === 'updateCategory' && (
+        <Modal
+          header='Update Category'
+          id='updateCategory'
+          customContentClass='max-w-[360px]'
+        >
+          <UpdateCategoryField />
         </Modal>
       )}
     </>

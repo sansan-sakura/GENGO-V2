@@ -5,11 +5,12 @@ import { modalIDstate, modalState } from '../../../atoms/commonAtoms'
 
 type Props = {
   children: ReactNode
+  customContentClass?: string
   header?: string
   id: string
 }
 
-export const Modal = ({ children, header, id }: Props) => {
+export const Modal = ({ children, header, id, customContentClass }: Props) => {
   const [modalId, setModalId] = useRecoilState(modalIDstate)
   return (
     <Dialog
@@ -18,7 +19,7 @@ export const Modal = ({ children, header, id }: Props) => {
         modalId !== '' && setModalId('')
       }}
     >
-      <DialogContent>
+      <DialogContent className={customContentClass}>
         <DialogHeader className='text-xl font-semibold'>{header}</DialogHeader>
         {children}
       </DialogContent>

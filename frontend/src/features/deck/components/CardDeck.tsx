@@ -21,7 +21,7 @@ const id = 'modal'
 export const CardDeck = ({ card, index }: { card?: DeckType; index?: number }) => {
   const [modalId, setModalId] = useRecoilState(modalIDstate)
   const { deleteDeck, isDeleting, isError: isDeletingError } = useDeleteDeck()
-  const { isEditing, editDeck, isError } = useEditDeck({ bookmark: true })
+  const { isEditing, editDeck, isError } = useEditDeck(true)
   const [modalConfirmId, setModalConfirmId] = useRecoilState(modalConfirmIdState)
 
   const cardCategory = card?.category?.category ?? 'english'
@@ -65,7 +65,7 @@ export const CardDeck = ({ card, index }: { card?: DeckType; index?: number }) =
 
         <Link
           // to={`/deck/${card._id}`}
-          to='#'
+          to='/flashcard'
           className='group relative block  h-44 w-[280px] rounded-sm shadow-xl sm:w-[310px] xl:w-[360px]'
         >
           <div

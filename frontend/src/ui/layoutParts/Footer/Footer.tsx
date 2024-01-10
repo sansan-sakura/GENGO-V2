@@ -3,7 +3,7 @@ import { Hanko } from '../../generic/Hanko'
 
 export const Footer = () => {
   return (
-    <footer className={`mt-12 border-t border-t-stone-100 px-6 py-6 md:px-12 `}>
+    <footer className='mt-12 border-t border-t-stone-100 px-6 py-6 md:px-12'>
       <div className='mx-auto max-w-[700px]'>
         <div className='mb-2 flex gap-6 text-sm'>
           <Link to='/about'>

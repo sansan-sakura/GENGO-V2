@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 import helmet from "helmet";
 import mongoose from "mongoose";
 import { router as userRouter } from "./routes/userRoutes";
@@ -13,6 +13,9 @@ import ExpressMongoSanitize from "express-mongo-sanitize";
 import hpp from "hpp";
 import { AppError } from "./utils/appError";
 import { globalErrorHandler } from "./controllers/errorController";
+import { Webhook } from "svix";
+import bodyParser from "body-parser";
+import type { WebhookEvent } from "@clerk/clerk-sdk-node";
 
 dotenv.config();
 
@@ -22,7 +25,7 @@ mongoose.connect(mongoUrl).then(() => console.log("connected"));
 
 const port = process.env.PORT || 8080;
 const app = express();
-
+app.use(cors());
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
@@ -44,6 +47,49 @@ app.use(
     ],
   })
 );
+
+interface IncomingHttpHeaders {
+  [header: string]: string | string[] | undefined;
+}
+app.post("/api/webhook", bodyParser.raw({ type: "application/json" }), async function (req, res) {
+  try {
+    const payloadString = JSON.stringify(req.body);
+
+    const headerPayload = req.headers;
+
+    const svix_id = headerPayload["svix-id"] as string;
+    const svix_timestamp = headerPayload["svix-timestamp"] as string;
+    const svix_signature = headerPayload["svix-signature"] as string;
+
+    const svixHeaders = {
+      "svix-id": svix_id,
+      "svix-timestamp": svix_timestamp,
+      "svix-signature": svix_signature,
+    };
+
+    const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET_KEY);
+
+    const evt = wh.verify(payloadString, svixHeaders) as WebhookEvent;
+
+    const { id, ...attributes } = evt.data;
+    // Handle the webhooks
+    const eventType = evt.type;
+
+    if (eventType === "user.created") {
+      console.log(`User ${id} was ${eventType} 🌸`);
+      console.log(attributes);
+    }
+    res.status(200).json({
+      success: true,
+      message: "Webhook received",
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: err.message,
+    });
+  }
+});
 
 app.use("/api", limiter);
 app.use(helmet());
