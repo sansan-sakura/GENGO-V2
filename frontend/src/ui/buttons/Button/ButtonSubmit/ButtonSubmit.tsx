@@ -30,7 +30,6 @@ export const ButtonSubmit = ({
   const [modalId, setModalId] = useRecoilState(modalIDstate)
   const [modalConfirmId, setModalConfirmId] = useRecoilState(modalConfirmIdState)
   const [subModalId, setSubModalId] = useRecoilState(subModalIdState)
-  console.log(subModalId)
 
   const closeModalOnSubmit = () => {
     modalId !== '' && setModalId('')

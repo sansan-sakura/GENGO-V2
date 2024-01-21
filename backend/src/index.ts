@@ -54,7 +54,6 @@ interface IncomingHttpHeaders {
 app.post("/api/webhook", bodyParser.raw({ type: "application/json" }), async function (req, res) {
   try {
     const payloadString = JSON.stringify(req.body);
-
     const headerPayload = req.headers;
 
     const svix_id = headerPayload["svix-id"] as string;
@@ -72,9 +71,10 @@ app.post("/api/webhook", bodyParser.raw({ type: "application/json" }), async fun
     const evt = wh.verify(payloadString, svixHeaders) as WebhookEvent;
 
     const { id, ...attributes } = evt.data;
+
     // Handle the webhooks
     const eventType = evt.type;
-
+    console.log(eventType, "event");
     if (eventType === "user.created") {
       console.log(`User ${id} was ${eventType} 🌸`);
       console.log(attributes);

@@ -18,7 +18,7 @@ export const IndexLayout = () => {
             <div className='flex items-end gap-5'>
               <Link
                 to='/dashboard'
-                className='mb-1 block text-base font-semibold text-red-dark transition-colors duration-300 hover:text-red-dark/80 sm:text-2xl'
+                className='mb-1 block text-base font-semibold text-blue-dark transition-colors duration-300 hover:text-blue-dark/80 sm:text-2xl'
               >
                 <ImHome3 />
               </Link>
@@ -28,7 +28,7 @@ export const IndexLayout = () => {
                   appearance={{
                     elements: {
                       userButtonBox: 'w-12 h-12',
-                      avatarBox: 'w-full h-full border border-red-dark shadow',
+                      avatarBox: 'w-full h-full border border-blue-dark shadow',
                     },
                   }}
                 />
@@ -38,7 +38,7 @@ export const IndexLayout = () => {
           <SignedOut>
             <Link
               to='/sign-in'
-              className='border-b border-b-red-dark text-red-dark transition-colors duration-300 hover:border-b-red-dark/70 hover:text-red-dark/70'
+              className='border-b border-b-blue-dark text-blue-dark transition-colors duration-300 hover:border-b-blue-dark/70 hover:text-blue-dark/70'
             >
               Sign In
             </Link>
