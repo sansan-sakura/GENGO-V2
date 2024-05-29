@@ -1,24 +1,21 @@
-import { AppError } from "../utils/appError";
-import { Category } from "./categoryModel";
-import mongoose from "mongoose";
+import { AppError } from '../utils/appError';
+import { Category } from './categoryModel';
+import mongoose from 'mongoose';
 const deckSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
-      minlength: [3, "A category must be more than 3 charactors 🚦"],
+      minlength: [3, 'A category must be more than 3 charactors 🚦'],
     },
     isDone: { type: Boolean, default: false },
     isChecked: { type: Boolean, default: false },
-    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" }, //user can edit
+    // category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, //user can edit
     reviewed_date: { type: [Date], default: undefined },
-    last_reviewed_date: { type: Date, required: true, default: Date.now },
-    createdAt: { type: Date, default: Date.now },
-    cards: [{ type: mongoose.Schema.Types.ObjectId, ref: "Flashcard" }],
+    cards: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Flashcard' }],
     user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: [true, "deck needs to know the user"],
+      type: String,
+      required: [true, 'deck needs to know the user'],
     },
   },
   { timestamps: true }
@@ -34,4 +31,4 @@ const deckSchema = new mongoose.Schema(
 //   next();
 // });
 
-export const Deck: any = mongoose.model("Deck", deckSchema);
+export const Deck: any = mongoose.model('Deck', deckSchema);

@@ -17,8 +17,21 @@ import { PopoverCustom } from '../../../ui/generic/Popover/PopoverCustom'
 import { InputCreateCategory } from '../../category/components/InputCreateCategory'
 import { InputCreateDeck } from './InputCreateDeck'
 import { UpdateCategoryField } from '../../category/components/UpdateCategoryField'
+import { useEffect } from 'react'
 export const ListDecks = () => {
   const [modalId, setModalId] = useRecoilState(modalIDstate)
+  useEffect(() => {
+    const get = async () => {
+      try {
+        const res = await fetch('http://localhost:8080/api/v1/deck')
+        const data = await res.json()
+        console.log(data)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    get()
+  }, [])
   return (
     <>
       <div className='relative mx-auto flex h-full w-fit flex-col items-center justify-around gap-12 lg:gap-16'>

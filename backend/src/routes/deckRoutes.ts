@@ -1,3 +1,4 @@
+import { ClerkExpressRequireAuth, ClerkExpressWithAuth } from '@clerk/clerk-sdk-node';
 import {
   createDeck,
   deleteDeck,
@@ -7,16 +8,20 @@ import {
   getDeck,
   getDecksByCategory,
   updateDeck,
-} from "../controllers/deckController";
+} from '../controllers/deckController';
 
-import express from "express";
+import express from 'express';
 
 const router = express.Router();
 
-router.route("/").get(getAllDecks).post(createDeck);
-router.route("/date/category/:id").get(getDatesOfDeck);
-router.route("/date").get(getAllDatesOfDeck);
-router.route("/category/:id").get(getDecksByCategory);
+router.route('/').get(ClerkExpressWithAuth(), getAllDecks).post(ClerkExpressWithAuth(), createDeck);
+router.route('/date/category/:id').get(ClerkExpressWithAuth(), getDatesOfDeck);
+router.route('/date').get(ClerkExpressWithAuth(), getAllDatesOfDeck);
+router.route('/category/:id').get(ClerkExpressWithAuth(), getDecksByCategory);
 
-router.route("/:id").get(getDeck).delete(deleteDeck).put(updateDeck);
+router
+  .route('/:id')
+  .get(ClerkExpressWithAuth(), getDeck)
+  .delete(ClerkExpressWithAuth(), deleteDeck)
+  .put(ClerkExpressWithAuth(), updateDeck);
 export { router };

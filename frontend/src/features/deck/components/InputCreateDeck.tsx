@@ -13,7 +13,8 @@ export const InputCreateDeck = () => {
   const { isCreating, createDeck, isError } = useCreateDeck()
 
   const handleDeckCreate = () => {
-    if (selectedCategory === '' || title === '') return
+    console.log('clicked')
+    // if (selectedCategory === '' || title === '') return
     const newdeck = { category: selectedCategory, title }
     createDeck(newdeck)
   }

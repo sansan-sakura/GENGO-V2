@@ -1,3 +1,4 @@
+import { useAuth } from '@clerk/clerk-react'
 import {
   DECK_CREATE_URL,
   ALL_DECK_URL,
@@ -87,16 +88,23 @@ export async function getDeck(id: number | string | undefined, token: any) {
   }
 }
 
-export async function createDeck(body: NewDeckType, token: any) {
+export async function createDeck(body: NewDeckType) {
+  console.log('apiiii', useAuth)
+  const { getToken } = useAuth()
+
   try {
     const res = await fetch(DECK_CREATE_URL, {
       method: 'POST',
-      headers: { Authorization: token, 'Content-Type': 'application/json' },
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(body),
     })
-
+    console.log(res)
     const data = await res.json()
     if (data.status !== 'success') throw new Error(data.message)
+    console.log(data)
     return data
   } catch (err: any) {
     throw new Error(err.message)

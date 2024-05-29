@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
 
-const mongoUrl = process.env.MONGO_URL || "mongodb://localhost:27017/project-auth";
+const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/gengo-v2';
 
 export const connectDB = async () => {
   try {
