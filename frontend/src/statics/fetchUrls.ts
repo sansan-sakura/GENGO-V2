@@ -10,15 +10,15 @@ export const DECK_BY_ID_URL = (id: number | string) => `${API_ROOT_URL}api/v1/de
 export const DECK_CREATE_URL = `${API_ROOT_URL}api/v1/deck`
 
 export const DECK_WITH_CATEGOY_URL = (id: number | string, query: string) =>
-  `${API_ROOT_URL}api/v1/deck/category/${id}/?${query}`
+  `${API_ROOT_URL}api/v1/deck/category/${id}${query}`
 
 export const ALL_DECK_URL = (query: string) => `${API_ROOT_URL}api/v1/deck${query}`
 
 export const DECK_WITH_DATE_CATEGOY_URL = (id: number | string, query: string) =>
-  `${API_ROOT_URL}api/v1/deck/date/category/${id}/?${query}`
+  `${API_ROOT_URL}api/v1/deck/date/category/${id}${query}`
 
 export const ALL_DECK_DATES_URL = (query: string) =>
-  `${API_ROOT_URL}api/v1/deck/date/?${query}`
+  `${API_ROOT_URL}api/v1/deck/date${query}`
 
 export const CATEGORY_URL = `${API_ROOT_URL}api/v1/category`
 

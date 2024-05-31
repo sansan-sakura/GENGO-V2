@@ -1,5 +1,4 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query'
-import { createCategory as createCategoryApi } from '../../../services/apiCategory'
 import { useAuth } from '@clerk/clerk-react'
 import { NewCategory } from '../../../types/flashcardTypes'
 import { useToast } from '../../../ui/shadcn/use-toast'
@@ -8,8 +7,8 @@ import { CATEGORY_URL } from '../../../statics/fetchUrls'
 export function useCreateCategory() {
   const queryClient = useQueryClient()
   const { toast } = useToast()
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  const token = getToken()
+  const { getToken } = useAuth()
+
   const {
     mutate: createCategory,
     isPending: isCreating,

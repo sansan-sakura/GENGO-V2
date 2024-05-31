@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import {
   Select,
   SelectContent,
@@ -17,7 +17,9 @@ type Props = {
 }
 export const SelectCategory = ({ onChange, defaultValue }: Props) => {
   const { isPending, categories, error } = useCategory()
+
   if (isPending || error) return
+
   return (
     <Select onValueChange={onChange} defaultValue={defaultValue}>
       <SelectTrigger className='w-[180px]'>

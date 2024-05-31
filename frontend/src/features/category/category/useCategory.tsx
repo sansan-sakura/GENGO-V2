@@ -1,4 +1,3 @@
-import { getCategories } from '../../../services/apiCategory'
 import { useQuery } from '@tanstack/react-query'
 import { CategoryType } from '../../../types/flashcardTypes'
 import { useAuth } from '@clerk/clerk-react'

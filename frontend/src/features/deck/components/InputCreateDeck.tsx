@@ -6,18 +6,21 @@ import { ButtonSubmit } from '../../../ui/buttons/Button/ButtonSubmit'
 import { SelectCategory } from '../../../ui/generic/SelectCategory'
 import { ChangeEvent, useState } from 'react'
 import { useCreateDeck } from '../hooks/useCreateDeck'
+import { modalIDstate } from '../../../atoms/commonAtoms'
+import { useRecoilState } from 'recoil'
+import { useToast } from '../../../ui/shadcn/use-toast'
 
 export const InputCreateDeck = () => {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [title, setTitle] = useState('')
   const { isCreating, createDeck, isError } = useCreateDeck()
+  const [modalId, setModalId] = useRecoilState(modalIDstate)
+  const { toast } = useToast()
 
   const handleDeckCreate = () => {
-    console.log('clicked')
-    // if (selectedCategory === '' || title === '') return
     const newdeck = { category: selectedCategory, title }
-    console.log(newdeck)
     createDeck(newdeck)
+    setModalId('')
   }
   return (
     <div className='flex flex-col items-center gap-10'>

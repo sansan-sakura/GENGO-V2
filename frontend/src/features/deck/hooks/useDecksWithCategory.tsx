@@ -13,14 +13,20 @@ export function useDecksWithCategory(categoryId: string, query: string) {
     queryFn: async () => {
       try {
         //TODO: add categoryId to url
-        const res = await fetch(ALL_DECK_URL(query), {
-          headers: {
-            Authorization: `Bearer ${await getToken()}`,
+        const res = await fetch(
+          categoryId === 'all'
+            ? ALL_DECK_URL(query)
+            : DECK_WITH_CATEGOY_URL(categoryId, query),
+          {
+            headers: {
+              Authorization: `Bearer ${await getToken()}`,
+            },
           },
-        })
+        )
+
+        console.log(res)
         const data = await res.json()
         if (data.status === 'fail' || data.status === 'error') {
-          alert(data.message)
           throw new Error(data.message)
         }
         return data

@@ -1,7 +1,4 @@
-import { useState } from 'react'
-
 import { Link } from 'react-router-dom'
-import { TbEdit } from 'react-icons/tb'
 import { AiFillDelete } from 'react-icons/ai'
 import { GiBookmarklet } from 'react-icons/gi'
 import { MdOutlineEdit } from 'react-icons/md'
@@ -9,30 +6,30 @@ import { InputEditDeck } from './InputEditDeck'
 import { Modal } from '../../../ui/generic/Modal'
 import { DeckType } from '../../../types/flashcardTypes'
 import { useChooseCategoryColor } from '../../category/category/useChooseCategoryColor'
-
-import { bgColors } from '../../../statics/colors'
-
 import { useRecoilState } from 'recoil'
 import { modalConfirmIdState, modalIDstate } from '../../../atoms/commonAtoms'
 import { useDeleteDeck } from '../hooks/useDeleteDeck'
 import { ModalConfirm } from '../../../ui/generic/ModalConfirm'
 import { useEditDeck } from '../hooks/useEditDeck'
-const id = 'modal'
+
 export const CardDeck = ({ card, index }: { card: DeckType; index?: number }) => {
+  //toggle open modal
   const [modalId, setModalId] = useRecoilState(modalIDstate)
+  //Delete deck
   const { deleteDeck, isDeleting, isError: isDeletingError } = useDeleteDeck()
+  //Edit deck
   const { isEditing, editDeck, isError } = useEditDeck(true)
+  //Toggle open Confirm modal to delete deck
   const [modalConfirmId, setModalConfirmId] = useRecoilState(modalConfirmIdState)
 
-  const cardCategory = card?.category?.category ?? 'english'
+  //choose category color
+  const cardCategory = card?.category?.category ?? null
   const categoryBgColor = useChooseCategoryColor(cardCategory)
 
   const handelDeleteDeck = () => {
-    console.log('delete')
     if (card?._id === undefined) return
     deleteDeck(card._id)
   }
-  console.log(card, categoryBgColor)
   const handleCheck = () => {
     const id = card?._id
     if (id === undefined) return
@@ -41,6 +38,7 @@ export const CardDeck = ({ card, index }: { card: DeckType; index?: number }) =>
   }
   return (
     <>
+      {/* Tags on right side */}
       <div className='relative h-fit w-fit'>
         <div
           onClick={() => setModalId(`modalDeckEdit/${card?._id}`)}
@@ -68,7 +66,7 @@ export const CardDeck = ({ card, index }: { card: DeckType; index?: number }) =>
           to={`/deck/${card._id}`}
           className='group relative block  h-44 w-[280px] rounded-sm shadow-xl sm:w-[310px] xl:w-[360px]'
         >
-          {card.category && (
+          {card.category?.category && categoryBgColor?.color && (
             <div
               className={`absolute -top-5 right-3 w-fit rounded-t-sm text-white ${categoryBgColor?.color} px-2 pb-[3px] pt-1 text-xs transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1`}
             >
@@ -78,7 +76,7 @@ export const CardDeck = ({ card, index }: { card: DeckType; index?: number }) =>
           <span
             className={`absolute inset-0 rounded-sm border-[0.5px] border-dashed border-black`}
           ></span>
-
+          {/* Card  */}
           <div className='relative h-full transform rounded-sm border-[0.5px] border-black bg-amber-50 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1'>
             <div className='flex h-full flex-col justify-between p-2 transition-opacity sm:p-6 lg:p-4'>
               <h2 className='text-xl font-medium sm:text-2xl'>{card.title}</h2>
@@ -90,6 +88,8 @@ export const CardDeck = ({ card, index }: { card: DeckType; index?: number }) =>
             </div>
           </div>
         </Link>
+
+        {/* Modals */}
         {modalConfirmId === `modalConfirm/${card?._id}` && (
           <ModalConfirm
             header='Delete Deck'

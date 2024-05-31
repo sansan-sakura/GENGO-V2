@@ -35,6 +35,7 @@ export const createCategory = catchAsync(
 );
 
 export const getCategory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  if (!req.auth?.sessionId) return next(new AppError('Please login', 404));
   const category = await Category.findById(req.params.id);
   res.status(201).json({
     status: 'success',
@@ -46,17 +47,19 @@ export const getCategory = catchAsync(async (req: Request, res: Response, next: 
 
 export const deleteCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.auth?.sessionId) return next(new AppError('Please login', 404));
     const deletedCategory = await Category.findOneAndDelete({ _id: req.params.id });
 
     res.json({
       status: 'success',
-      data: null,
+      data: {},
     });
   }
 );
 
 export const updateCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.auth?.sessionId) return next(new AppError('Please login', 404));
     const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,

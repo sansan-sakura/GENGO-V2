@@ -9,8 +9,6 @@ import clerkClient, { WithAuthProp } from '@clerk/clerk-sdk-node';
 export const getAllDecks = catchAsync(
   async (req: WithAuthProp<Request>, res: Response, next: NextFunction) => {
     if (!req.auth?.sessionId) return next(new AppError('Please login', 404));
-
-    const id = req.body.id;
     const user = await clerkClient.users.getUser(req.auth.userId);
 
     const features = new APIFeatures(
@@ -21,7 +19,6 @@ export const getAllDecks = catchAsync(
       .sort()
       .limitFields()
       .paginate();
-
     const deck = await features.query;
 
     res.status(200).json({
@@ -32,56 +29,53 @@ export const getAllDecks = catchAsync(
   }
 );
 
+// This is for calender
 export const getDatesOfDeck = catchAsync(
   async (req: WithAuthProp<Request>, res: Response, next: NextFunction) => {
+    if (!req.auth?.sessionId) return next(new AppError('Please login', 404));
+
     const features = new APIFeatures(
-      Deck.find({ category: new mongoose.Types.ObjectId(req.params.id), user: req.auth.userId })
-        // .populate('category')
-        // .populate('cards')
-        .select({
-          createdAt: 1,
-          last_reviewed_date: 1,
-          reviewed_date: 1,
-        }),
+      Deck.find({
+        category: new mongoose.Types.ObjectId(req.params.id),
+        user: req.auth.userId,
+      }).select({
+        createdAt: 1,
+      }),
       req.query
     );
 
-    const deck = await features.query;
+    const numOfDecks = await features.query.countDocuments();
 
     res.status(200).json({
       status: '200',
-      results: deck.length,
-      data: { deck },
+      results: numOfDecks,
     });
   }
 );
 
 export const getAllDatesOfDeck = catchAsync(
   async (req: WithAuthProp<Request>, res: Response, next: NextFunction) => {
+    if (!req.auth?.sessionId) return next(new AppError('Please login', 404));
+
     const features = new APIFeatures(
-      Deck.find({ id: req.auth.userId }).populate('category').populate('cards').select({
+      Deck.find({ user: req.auth.userId }).select({
         createdAt: 1,
-        last_reviewed_date: 1,
-        reviewed_date: 1,
       }),
       req.query
     );
 
-    const deck = await features.query;
-
+    const numOfDecks = await features.query.countDocuments();
     res.status(200).json({
       status: '200',
-      results: deck.length,
-      data: { deck },
+      results: numOfDecks,
     });
   }
 );
 
+// To sort by category
 export const getDecksByCategory = catchAsync(
   async (req: WithAuthProp<Request>, res: Response, next: NextFunction) => {
     if (!req.auth?.sessionId) return next(new AppError('Please login', 404));
-    const searchObj =
-      req.params.id === 'all' ? {} : { category: new mongoose.Types.ObjectId(req.params.id) };
     const features = new APIFeatures(
       Deck.find({ category: new mongoose.Types.ObjectId(req.params.id) })
         .populate('category')
@@ -89,12 +83,10 @@ export const getDecksByCategory = catchAsync(
       req.query
     )
       .filter()
-      .sort()
-      .limitFields()
       .paginate();
-
+    console.log(features);
     const deck = await features.query;
-
+    console.log(deck);
     res.status(200).json({
       status: '200',
       results: deck.length,
@@ -106,7 +98,6 @@ export const getDecksByCategory = catchAsync(
 export const createDeck = catchAsync(
   async (req: WithAuthProp<WithAuthProp<Request>>, res: Response, next: NextFunction) => {
     if (!req.auth?.sessionId) return next(new AppError('Please login', 404));
-    console.log('cretaeee');
     const user = await clerkClient.users.getUser(req.auth.userId);
     const { title, category } = req.body;
     const body =
@@ -114,7 +105,7 @@ export const createDeck = catchAsync(
         ? { title: title, user: user.id }
         : { title: title, user: user.id, category: category };
     const newDeck = await Deck.create(body);
-    console.log(newDeck);
+
     res.status(201).json({
       status: 'success',
       data: {

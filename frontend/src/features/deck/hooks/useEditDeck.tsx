@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { updateDeck } from '../../../services/apiDeck'
 import { NewDeckType } from '../../../types/flashcardTypes'
 import { useToast } from '../../../ui/shadcn/use-toast'
 import { useAuth } from '@clerk/clerk-react'

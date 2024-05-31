@@ -1,6 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'react-hot-toast'
-import { deleteDeck as deleteDeckApi } from '../../../services/apiDeck'
 import { useAuth } from '@clerk/clerk-react'
 import { useToast } from '../../../ui/shadcn/use-toast'
 import { DECK_BY_ID_URL } from '../../../statics/fetchUrls'

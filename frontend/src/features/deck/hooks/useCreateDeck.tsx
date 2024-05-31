@@ -1,10 +1,10 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query'
-import { createDeck as createDeckApi } from '../../../services/apiDeck'
+
 import { useAuth } from '@clerk/clerk-react'
 import { NewDeckType } from '../../../types/flashcardTypes'
 import { useToast } from '../../../ui/shadcn/use-toast'
 import { DECK_CREATE_URL } from '../../../statics/fetchUrls'
-import axios from 'axios'
+
 import fetch from 'isomorphic-fetch'
 
 export function useCreateDeck() {
