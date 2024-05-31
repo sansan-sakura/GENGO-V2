@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import toast from 'react-hot-toast'
-import { updateCategory } from '../../../services/apiCategory'
+
 import { useToast } from '../../../ui/shadcn/use-toast'
 import { useAuth } from '@clerk/clerk-react'
 import { CATEGORY_ID_URL } from '../../../statics/fetchUrls'

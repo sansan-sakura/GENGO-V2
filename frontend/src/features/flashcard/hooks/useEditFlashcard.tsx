@@ -1,35 +1,53 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import toast from 'react-hot-toast'
-import { updateFlashCard } from '../../../services/apiFlashcard'
 import { useToast } from '../../../ui/shadcn/use-toast'
 import { useAuth } from '@clerk/clerk-react'
+import { FLASHCARD_BY_ID_URL } from '../../../statics/fetchUrls'
 
 export function useEditFlashcard() {
   const queryClient = useQueryClient()
   const { toast } = useToast()
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  const token = getToken()
+  const { getToken } = useAuth()
+
   const {
     mutate: editFlashcard,
     isPending: isEditing,
     isError,
   } = useMutation({
-    mutationFn: ({
+    mutationFn: async ({
       id,
       newData,
     }: {
       id: string
-      newData: { question: string; answer: string }
-    }) => updateFlashCard(id, newData, token),
+      newData: { question?: string; answer?: string; status?: string }
+    }) => {
+      if (id === undefined) return
+
+      try {
+        const res = await fetch(FLASHCARD_BY_ID_URL(id), {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newData),
+        })
+
+        const data = await res.json()
+        if (data.status !== 'success') throw new Error(data.message)
+
+        return data
+      } catch (err: any) {
+        throw new Error(err.message)
+      }
+    },
     onSuccess: () => {
-      toast({ title: 'Flashcard successfully edited ' })
+      // toast({ title: 'Flashcard successfully edited ' })
       queryClient.invalidateQueries({ queryKey: ['deck'] })
     },
     onError: (err) =>
       toast({
         variant: 'destructive',
         title: err.message,
-        // title: 'Uh oh! Something went wrong.',
         description: 'There was a problem with your request.',
       }),
   })

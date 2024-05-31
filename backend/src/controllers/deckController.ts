@@ -43,9 +43,7 @@ export const getDatesOfDeck = catchAsync(
       }),
       req.query
     );
-
     const numOfDecks = await features.query.countDocuments();
-
     res.status(200).json({
       status: '200',
       results: numOfDecks,

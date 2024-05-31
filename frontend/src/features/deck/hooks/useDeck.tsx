@@ -10,6 +10,7 @@ export function useDeck(id: number | string | undefined) {
   } = useQuery({
     queryKey: ['deck'],
     queryFn: async () => {
+      console.log('fett')
       if (id === undefined) return
       try {
         const res = await fetch(DECK_BY_ID_URL(id), {
@@ -24,6 +25,7 @@ export function useDeck(id: number | string | undefined) {
           alert(data.message)
           throw new Error(data.message)
         }
+        console.log(data, 'data')
         return data
       } catch (err: any) {
         throw new Error("Couldn't get a deck")

@@ -1,16 +1,29 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'react-hot-toast'
-import { deleteFlashCard } from '../../../services/apiFlashcard'
 import { useAuth } from '@clerk/clerk-react'
 import { useToast } from '../../../ui/shadcn/use-toast'
+import { FLASHCARD_BY_ID_URL } from '../../../statics/fetchUrls'
 
 export function useDeleteFlashcard() {
   const queryClient = useQueryClient()
   const { toast } = useToast()
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  const token = getToken()
+  const { getToken } = useAuth()
+
   const { isPending: isDeleting, mutate: deleteFlashcard } = useMutation({
-    mutationFn: (id: number | string | undefined) => deleteFlashCard(id, token),
+    mutationFn: async (id: number | string | undefined) => {
+      if (id === undefined) return
+
+      try {
+        const res = await fetch(FLASHCARD_BY_ID_URL(id), {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${await getToken()}` },
+        })
+        const data = await res.json()
+        if (data.status !== 'success') throw new Error(data.message)
+        return data
+      } catch (err: any) {
+        throw new Error(err.message)
+      }
+    },
     onSuccess: () => {
       toast({
         title: 'Flashcard succesfully created',

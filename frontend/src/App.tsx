@@ -16,6 +16,7 @@ import { DashboardPage } from './pages/Dashboard'
 import { IndexPage } from './pages/IndexPage'
 import AuthLayout from './ui/layouts/AuthLayout'
 import { IndexLayout } from './ui/layouts/IndexLayout'
+import { Error } from './ui/generic/Error'
 // import { LoginSignUpLayout } from "./ui/LoginSignUpLayout";
 
 const router = createBrowserRouter([
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
     children: [
       {
         element: <IndexLayout />,
+        errorElement: <Error />,
         children: [
           { path: '/', element: <IndexPage /> },
           { path: '/about', element: <AboutPage /> },
@@ -34,6 +36,7 @@ const router = createBrowserRouter([
 
       {
         element: <AuthLayout />,
+        errorElement: <Error />,
         children: [
           { path: '/sign-in', element: <SignInPage /> },
           { path: '/sign-up', element: <SignUpPage /> },
@@ -43,58 +46,13 @@ const router = createBrowserRouter([
   },
   {
     element: <DashboardLayout />,
+    errorElement: <Error />,
     children: [
-      // { path: '/dashboard', element: <DashboardPage /> },
-      { path: '/dashboard', element: <DeckPage /> },
-      { path: '/flashcard', element: <FlashcardPage /> },
+      { path: '/dashboard', element: <DashboardPage /> },
+      { path: '/decks', element: <DeckPage /> },
+      { path: '/deck/:id', element: <FlashcardPage /> },
     ],
   },
-
-  //   { path: "/", element: <WelcomePage />, errorElement: <Error /> },
-  //   {
-  //     element: <LoginSignUpLayout />,
-  //     errorElement: <Error />,
-  //     children: [
-  //       { path: "/login", element: <Login />, errorElement: <Error /> },
-  //       { path: "/register", element: <SignUp />, errorElement: <Error /> },
-  //     ],
-  //   },
-  //   {
-  //     element: <AppLayout />,
-  //     errorElement: <Error />,
-  //     children: [
-  //       {
-  //         path: "/dashboard",
-  //         element: <Dashboard />,
-  //         errorElement: <Error />,
-  //       },
-  //       {
-  //         path: "/flashcards",
-  //         element: <FlashcardPage />,
-  //         errorElement: <Error />,
-  //       },
-  //       {
-  //         path: "/deck/:id",
-  //         element: <DeckPage />,
-  //         errorElement: <Error />,
-  //       },
-  //       {
-  //         path: "/settings",
-  //         element: <Settings />,
-  //         errorElement: <Error />,
-  //       },
-  //       {
-  //         path: "/about",
-  //         element: <About />,
-  //         errorElement: <Error />,
-  //       },
-  //       {
-  //         path: "/contact",
-  //         element: <Contact />,
-  //         errorElement: <Error />,
-  //       },
-  //     ],
-  //   },
 ])
 
 function App() {

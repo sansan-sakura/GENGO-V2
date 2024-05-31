@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { CardType } from '../../../types/flashcardTypes'
 import { Spinner } from '../../../ui/generic/Spinner'
 import { labels, labelsColors } from '../../../statics/colors'
-import { Toaster } from '../../../ui/shadcn/toaster'
+
 import { Button } from '../../../ui/shadcn/Button'
 import { Progress } from '../../../ui/shadcn/Progress'
 import { PopoverCustom } from '../../../ui/generic/Popover/PopoverCustom'
@@ -13,43 +13,54 @@ import { modalIDstate } from '../../../atoms/commonAtoms'
 import { Modal } from '../../../ui/generic/Modal'
 import { InputCreateFlashcard } from '../../flashcard'
 import { InputUpdateFlashcard } from '../../flashcard/components/InputUpdateFlashcard'
+import { useParams } from 'react-router-dom'
+import { useDeck } from '../hooks/useDeck'
+import { useEditFlashcard } from '../../flashcard/hooks/useEditFlashcard'
 
 const status = ['easy', 'okay', 'hard', 'very hard']
-const deckId = '1'
 export const Deck = ({ cards }: { cards?: Array<CardType> }) => {
-  const [progress, setProgress] = useState(13)
+  const [progress, setProgress] = useState(0)
   const [isChecked, setIsChecked] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [currentCard, setCurrentCard] = useState<CardType>()
   const [isFinished, setIsFinished] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalId, setModalId] = useRecoilState(modalIDstate)
+  const { id: deckId } = useParams()
 
-  //   useEffect(() => {
-  //     if (cards.length === 0 || cards === undefined) return
-  //     setCurrentCard(cards[currentIndex])
-  //   }, [cards, setCurrentCard, currentIndex])
+  const { isLoading, deck, error } = useDeck(deckId)
+  const { isEditing, editFlashcard, isError: isEditError } = useEditFlashcard()
+  useEffect(() => {
+    if (deck?.cards.length === 0) return
+    setCurrentCard(deck.cards[currentIndex])
+  }, [deck?.cards, setCurrentCard, currentIndex])
 
-  //   if (currentCard === undefined) return <Spinner />
+  useEffect(() => {
+    setProgress(((currentIndex + 1) / deck?.cards.length) * 100)
+  }, [currentIndex, setProgress, deck?.cards.length])
 
-  //   const { answer, question, status, _id } = currentCard
-
-  //   const handleClick = () => {
-  //     if (cards.length === currentIndex + 1) setIsFinished(true)
-  //     if (cards.length > currentIndex + 1) setCurrentIndex((prev) => prev + 1)
-  //     setIsChecked(false)
-  //   }
-
-  //   const handleDelete = () => {
-  //     const confirmDelete = confirm('Are you sure to delete this flashcard?')
-  //     if (!confirmDelete) return null
-  //     deleteFlashcard(_id)
-  //   }
+  const handleClick = (id: string, status: string) => {
+    if (deck?.cards.length === currentIndex + 1) setIsFinished(true)
+    if (deck?.cards.length > currentIndex + 1) setCurrentIndex((prev) => prev + 1)
+    setIsChecked(false)
+    editFlashcard({ id, newData: { status } })
+  }
 
   const handlePlayAgain = () => {
     setCurrentIndex(0)
     setIsFinished(false)
   }
+
+  if (isLoading) return <Spinner />
+  if (error) return <p>Something went wrong</p>
+
+  if (deck?.cards.length === 0)
+    return (
+      <div className='flex flex-col items-center justify-center'>
+        <h3 className='text-lg font-bold'>Please add flashcards🤖</h3>
+        <p className='mt-2 text-center'>Deck is empty</p>
+      </div>
+    )
 
   if (isFinished)
     return (
@@ -66,38 +77,41 @@ export const Deck = ({ cards }: { cards?: Array<CardType> }) => {
 
   return (
     <>
-      <Toaster />
       <div className='relative flex  h-full flex-col items-center'>
         <Progress value={progress} />
         <div className='flex h-full w-fit flex-col items-center justify-center gap-14'>
-          {!isChecked ? (
+          {currentCard && (
             <>
-              <h3 className='text-lg  sm:text-2xl'>What is human in Swedish</h3>
-              <Button
-                onClick={() => setIsChecked(true)}
-                variant={'blue'}
-                className='mx-auto uppercase text-white'
-              >
-                Check
-              </Button>
-            </>
-          ) : (
-            <>
-              <h3 className=' text-lg sm:text-2xl'>Man</h3>
-              <div className='text-end'>
-                <div className='flex gap-2'>
-                  {status.map((item) => (
-                    <Button
-                      onClick={() => setIsChecked(true)}
-                      variant={'blue'}
-                      className='mx-auto uppercase  text-white'
-                    >
-                      {item}
-                    </Button>
-                  ))}
-                </div>
-                <p className='mt-1 text-xs'>last status: easy</p>
-              </div>
+              {!isChecked ? (
+                <>
+                  <h3 className='text-lg  sm:text-2xl'>{currentCard.question}</h3>
+                  <Button
+                    onClick={() => setIsChecked(true)}
+                    variant={'blue'}
+                    className='mx-auto uppercase text-white'
+                  >
+                    Check
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <h3 className=' text-lg sm:text-2xl'>{currentCard.answer}</h3>
+                  <div className='text-end'>
+                    <div className='flex gap-2'>
+                      {status.map((item) => (
+                        <Button
+                          onClick={() => handleClick(currentCard._id ?? '', item)}
+                          variant={'blue'}
+                          className='mx-auto uppercase  text-white'
+                        >
+                          {item}
+                        </Button>
+                      ))}
+                    </div>
+                    <p className='mt-1 text-xs'>last status: {currentCard.status}</p>
+                  </div>
+                </>
+              )}
             </>
           )}
         </div>
@@ -121,12 +135,12 @@ export const Deck = ({ cards }: { cards?: Array<CardType> }) => {
 
       {modalId === 'modal/addFlashcard' && (
         <Modal header='Add New Flashcard' id='modal/addFlashcard'>
-          <InputCreateFlashcard deckId={deckId} />
+          <InputCreateFlashcard deckId={deckId ?? ''} />
         </Modal>
       )}
       {modalId === 'modal/updateFlashcard' && (
         <Modal header='Add New Flashcard' id='modal/updateFlashcard'>
-          <InputUpdateFlashcard cards={cards ?? []} />
+          <InputUpdateFlashcard cards={deck?.cards ?? []} />
         </Modal>
       )}
     </>

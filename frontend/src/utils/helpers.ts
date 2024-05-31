@@ -1,4 +1,4 @@
-import { CategoryType } from '@/types/flashcardTypes'
+import { CategoryType } from '../types/flashcardTypes'
 
 export const getDate = () => {
   const now = new Date()
