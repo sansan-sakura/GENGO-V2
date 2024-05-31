@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const categorySchema = new mongoose.Schema({
   category: {
@@ -6,13 +6,12 @@ const categorySchema = new mongoose.Schema({
     required: true,
     trim: true,
     unique: false,
-    maxlength: [20, "A sategory must be less than 20 charactors 🫣"],
-    minlength: [3, "A category must be more than 3 charactors ⭐️"],
+    maxlength: [20, 'A sategory must be less than 20 charactors 🫣'],
+    minlength: [3, 'A category must be more than 3 charactors ⭐️'],
   },
   user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: [true, "Category needs to know the user"],
+    type: String,
+    required: [true, 'Category needs to know the user'],
   },
 });
 
@@ -22,4 +21,4 @@ const categorySchema = new mongoose.Schema({
 //   next();
 // });
 
-export const Category = mongoose.model("Category", categorySchema);
+export const Category = mongoose.model('Category', categorySchema);

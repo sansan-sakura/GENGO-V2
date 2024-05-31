@@ -10,7 +10,7 @@ const deckSchema = new mongoose.Schema(
     },
     isDone: { type: Boolean, default: false },
     isChecked: { type: Boolean, default: false },
-    // category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, //user can edit
+    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, //user can edit
     reviewed_date: { type: [Date], default: undefined },
     cards: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Flashcard' }],
     user: {

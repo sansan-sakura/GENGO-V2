@@ -26,7 +26,7 @@ export const SelectCategory = ({ onChange, defaultValue }: Props) => {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Category</SelectLabel>
-          <SelectItem value='All'>All</SelectItem>
+          <SelectItem value='all'>All</SelectItem>
           {categories.map((item) => (
             <SelectItem value={item._id} key={item._id}>
               {item.category}

@@ -12,7 +12,7 @@ export const DECK_CREATE_URL = `${API_ROOT_URL}api/v1/deck`
 export const DECK_WITH_CATEGOY_URL = (id: number | string, query: string) =>
   `${API_ROOT_URL}api/v1/deck/category/${id}/?${query}`
 
-export const ALL_DECK_URL = (query: string) => `${API_ROOT_URL}api/v1/deck/?${query}`
+export const ALL_DECK_URL = (query: string) => `${API_ROOT_URL}api/v1/deck${query}`
 
 export const DECK_WITH_DATE_CATEGOY_URL = (id: number | string, query: string) =>
   `${API_ROOT_URL}api/v1/deck/date/category/${id}/?${query}`

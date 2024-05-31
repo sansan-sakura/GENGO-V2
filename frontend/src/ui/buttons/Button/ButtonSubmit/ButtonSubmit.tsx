@@ -10,7 +10,7 @@ import {
 
 type Props = {
   children: ReactNode
-  onClick?: () => void
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
   isloading?: boolean
   isError?: boolean
   varient?: 'outline' | 'destructive' | 'red' | 'link' | 'ghost' | 'link' //TODO: define specific type string

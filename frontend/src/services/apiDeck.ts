@@ -7,14 +7,11 @@ import {
   DECK_WITH_DATE_CATEGOY_URL,
   ALL_DECK_DATES_URL,
 } from '../statics/fetchUrls'
-
+import fetch from 'isomorphic-fetch'
 import { NewDeckType } from '../types/flashcardTypes'
 
-export async function getDecksWithCategopry(
-  categoryId: string,
-  query: string,
-  token: any,
-) {
+export async function getDecksWithCategopry(categoryId: string, query: string) {
+  const { getToken } = useAuth()
   try {
     const res = await fetch(
       categoryId === 'all'
@@ -23,7 +20,7 @@ export async function getDecksWithCategopry(
       {
         method: 'Get',
         headers: {
-          Authorization: token,
+          Authorization: `Bearer ${await getToken()}`,
           'Content-Type': 'application/json',
         },
       },
@@ -41,7 +38,8 @@ export async function getDecksWithCategopry(
   }
 }
 
-export async function getDatesOfDecks(categoryId: string, query: string, token: any) {
+export async function getDatesOfDecks(categoryId: string, query: string) {
+  const { getToken } = useAuth()
   try {
     const res = await fetch(
       categoryId === 'all'
@@ -50,7 +48,7 @@ export async function getDatesOfDecks(categoryId: string, query: string, token: 
       {
         method: 'GET',
         headers: {
-          Authorization: token,
+          Authorization: `Bearer ${await getToken()}`,
           'Content-Type': 'application/json',
         },
       },
@@ -67,13 +65,14 @@ export async function getDatesOfDecks(categoryId: string, query: string, token: 
   }
 }
 
-export async function getDeck(id: number | string | undefined, token: any) {
+export async function getDeck(id: number | string | undefined) {
   if (id === undefined) return
+  const { getToken } = useAuth()
   try {
     const res = await fetch(DECK_BY_ID_URL(id), {
       method: 'GET',
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${await getToken()}`,
         'Content-Type': 'application/json',
       },
     })
@@ -89,9 +88,8 @@ export async function getDeck(id: number | string | undefined, token: any) {
 }
 
 export async function createDeck(body: NewDeckType) {
-  console.log('apiiii', useAuth)
   const { getToken } = useAuth()
-
+  console.log('api')
   try {
     const res = await fetch(DECK_CREATE_URL, {
       method: 'POST',
@@ -111,11 +109,15 @@ export async function createDeck(body: NewDeckType) {
   }
 }
 
-export async function deleteDeck(id: number | string, token: any) {
+export async function deleteDeck(id: number | string) {
+  const { getToken } = useAuth()
   try {
     const res = await fetch(DECK_BY_ID_URL(id), {
       method: 'DELETE',
-      headers: { Authorization: token },
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+        'Content-Type': 'application/json',
+      },
     })
     const data = await res.json()
     if (data.status !== 'success') throw new Error(data.message)
@@ -125,11 +127,15 @@ export async function deleteDeck(id: number | string, token: any) {
   }
 }
 
-export async function updateDeck(id: number | string, body: NewDeckType, token: any) {
+export async function updateDeck(id: number | string, body: NewDeckType) {
+  const { getToken } = useAuth()
   try {
     const res = await fetch(DECK_BY_ID_URL(id), {
       method: 'PUT',
-      headers: { Authorization: token, 'Content-Type': 'application/json' },
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(body),
     })
 

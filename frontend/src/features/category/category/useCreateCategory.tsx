@@ -3,6 +3,7 @@ import { createCategory as createCategoryApi } from '../../../services/apiCatego
 import { useAuth } from '@clerk/clerk-react'
 import { NewCategory } from '../../../types/flashcardTypes'
 import { useToast } from '../../../ui/shadcn/use-toast'
+import { CATEGORY_URL } from '../../../statics/fetchUrls'
 
 export function useCreateCategory() {
   const queryClient = useQueryClient()
@@ -14,7 +15,23 @@ export function useCreateCategory() {
     isPending: isCreating,
     isError,
   } = useMutation({
-    mutationFn: (newCategory: NewCategory) => createCategoryApi(newCategory, token),
+    mutationFn: async (newCategory: NewCategory) => {
+      try {
+        const res = await fetch(CATEGORY_URL, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newCategory),
+        })
+        const data = await res.json()
+        if (data.status !== 'success') throw new Error(data.message)
+        return data
+      } catch (err: any) {
+        throw new Error(err.message)
+      }
+    },
     onSuccess: () => {
       toast({
         title: 'A New category is created',

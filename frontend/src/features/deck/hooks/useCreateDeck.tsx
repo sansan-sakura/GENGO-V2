@@ -8,7 +8,6 @@ import axios from 'axios'
 import fetch from 'isomorphic-fetch'
 
 export function useCreateDeck() {
-  console.log('client')
   const queryClient = useQueryClient()
   const { toast } = useToast()
   const { getToken } = useAuth()
@@ -19,29 +18,23 @@ export function useCreateDeck() {
     isError,
   } = useMutation({
     mutationKey: ['decks'],
-    mutationFn: (body: NewDeckType) => {
-      const fetchData = async () => {
-        try {
-          console.log('test')
-          const res = await fetch('http://localhost:8080/api/v1/deck', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${await getToken()}`,
-              mode: 'cors',
-            },
-            body: JSON.stringify(body),
-          })
-
-          const data = await res.json()
-          console.log(data)
-          return data
-        } catch (err: any) {
-          console.error(err)
-          throw new Error(err.message)
-        }
+    mutationFn: async (body: NewDeckType) => {
+      try {
+        const res = await fetch(DECK_CREATE_URL, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        })
+        const data = await res.json()
+        if (data.status !== 'success') throw new Error(data.message)
+        console.log(data)
+        return data
+      } catch (err: any) {
+        throw new Error(err.message)
       }
-      return fetchData()
     },
     onSuccess: () => {
       toast({
@@ -53,7 +46,6 @@ export function useCreateDeck() {
       toast({
         variant: 'destructive',
         title: err.message,
-        // title: 'Uh oh! Something went wrong.',
         description: 'There was a problem with your request.',
       }),
   })

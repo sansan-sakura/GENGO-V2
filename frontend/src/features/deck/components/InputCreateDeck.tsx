@@ -16,6 +16,7 @@ export const InputCreateDeck = () => {
     console.log('clicked')
     // if (selectedCategory === '' || title === '') return
     const newdeck = { category: selectedCategory, title }
+    console.log(newdeck)
     createDeck(newdeck)
   }
   return (

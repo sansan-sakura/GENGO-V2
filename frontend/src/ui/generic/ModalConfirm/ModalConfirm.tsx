@@ -14,6 +14,7 @@ type Props = {
 
 export const ModalConfirm = ({ onClick, header, id, isError, isLoading }: Props) => {
   const [modalConfirmId, setModalConfirmId] = useRecoilState(modalConfirmIdState)
+  console.log('mounted')
   return (
     <Dialog
       open={modalConfirmId === id}
@@ -31,7 +32,7 @@ export const ModalConfirm = ({ onClick, header, id, isError, isLoading }: Props)
             onClick={onClick}
             isError={isError}
             isloading={isLoading}
-            varient='destructive'
+            varient='red'
           >
             Confirm
           </ButtonSubmit>

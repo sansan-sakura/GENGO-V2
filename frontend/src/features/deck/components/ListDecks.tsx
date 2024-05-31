@@ -18,20 +18,15 @@ import { InputCreateCategory } from '../../category/components/InputCreateCatego
 import { InputCreateDeck } from './InputCreateDeck'
 import { UpdateCategoryField } from '../../category/components/UpdateCategoryField'
 import { useEffect } from 'react'
+import { useDecksWithCategory } from '../hooks/useDecksWithCategory'
+import { Toaster } from 'react-hot-toast'
 export const ListDecks = () => {
   const [modalId, setModalId] = useRecoilState(modalIDstate)
-  useEffect(() => {
-    const get = async () => {
-      try {
-        const res = await fetch('http://localhost:8080/api/v1/deck')
-        const data = await res.json()
-        console.log(data)
-      } catch (err) {
-        console.error(err)
-      }
-    }
-    get()
-  }, [])
+  const { isPending, decksWithQuery, error } = useDecksWithCategory('all', '')
+
+  if (isPending) return <p>Pending...</p>
+  if (error) return <p>Something went wrong while fetching decks</p>
+
   return (
     <>
       <div className='relative mx-auto flex h-full w-fit flex-col items-center justify-around gap-12 lg:gap-16'>
@@ -43,10 +38,9 @@ export const ListDecks = () => {
           </div>
         </div>
         <div className='w-fitgrid-cols-1 mx-auto grid gap-x-10  gap-y-10 md:grid-cols-2 lg:gap-x-20'>
-          <CardDeck />
-          <CardDeck />
-          <CardDeck />
-          <CardDeck />
+          {decksWithQuery?.data.deck.map((deck: any) => (
+            <CardDeck key={deck._id} card={deck} />
+          ))}
         </div>
         <div>
           <Pagination>
