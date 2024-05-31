@@ -7,7 +7,7 @@ export const navButton = [
   {
     name: '🗂️ Flashcards',
     bgColor: 'bg-red-dark',
-    path: '/flashcards',
+    path: '/decks',
   },
   {
     name: '🛠️ Settings',
